@@ -1570,18 +1570,10 @@ class ArcadeGameState(State):
     def _draw_eclipse_header(self, surface, rect):
         ec = self.eclipse
         compact = self.ec_compact
-        r = 13 if compact else 17
-        cx, cy = rect.x + (30 if compact else 40), rect.y + (30 if compact else 40)
-        pulse = 0.5 + 0.5 * math.sin(self._anim_time * 4) if ec.busy else 0.35
-        fill_round(surface, pygame.Rect(cx - r - 9, cy - r - 9, 2 * (r + 9), 2 * (r + 9)), theme.ACCENT,
-                   int(30 + 50 * pulse), r + 9)
-        pygame.draw.circle(surface, theme.ACCENT, (cx, cy), r)
-        pygame.draw.circle(surface, theme.mix(theme.OCEAN, theme.GLASS_COLOR, 0.4), (cx + round(r * 0.35), cy - round(r * 0.24)),
-                           r - 2)
-        text_x = cx + r + 23
+        cy = rect.y + (30 if compact else 40)
+        text_x = rect.x + 22
         title_size = 20 if compact else EC_TITLE
-        draw_spaced(surface, "ECLIPSE PRIME", (text_x, cy - (9 if compact else 12)), title_size, theme.TEXT,
-                    spacing=0.18, anchor="midleft")
+        self._draw_shimmer_title(surface, "ECLIPSE PRIME", (text_x, cy - (9 if compact else 12)), title_size, ec.busy)
         if ec.error:
             dot, status = theme.DANGER, "нет связи"
         elif ec.busy:
@@ -1606,6 +1598,37 @@ class ArcadeGameState(State):
             self._wrap_cache[key] = img
         surface.blit(img, (rect.x + 14, line_y))
         return self._draw_font_slider(surface, rect, line_y + (6 if compact else 10))
+
+    def _draw_shimmer_title(self, surface, text, pos, size, busy):
+        # Переливание: от тёмного оттенка акцента к светлому, по буквам бежит блик; пока ведущий думает - быстрее.
+        # Надпись рисуется один раз белой маской и каждый кадр умножается на полосу градиента.
+        key = ("shimmer_mask", text, size)
+        mask = self._wrap_cache.get(key)
+        if mask is None:
+            gap = int(size * 0.18)
+            chars = [text_surface(ch, size, (255, 255, 255), True) for ch in text]
+            mask = pygame.Surface((sum(c.get_width() for c in chars) + gap * (len(chars) - 1),
+                                   max(c.get_height() for c in chars)), pygame.SRCALPHA)
+            x = 0
+            for c in chars:
+                mask.blit(c, (x, 0))
+                x += c.get_width() + gap
+            self._wrap_cache[key] = mask
+        w, h = mask.get_size()
+        u = np.linspace(0.0, 1.0, w, dtype=np.float32)
+        p = (self._anim_time * (0.9 if busy else 0.28)) % 1.8 - 0.4
+        k = np.exp(-((u - p) / 0.11) ** 2)[:, None]
+        dark = np.array(theme.mix(theme.ACCENT, theme.GLASS_COLOR, 0.25), np.float32)
+        light = np.array(theme.mix(theme.ACCENT, (255, 255, 255), 0.45), np.float32)
+        shine = np.array(theme.mix(theme.ACCENT, (255, 255, 255), 0.85), np.float32)
+        row = dark + (light - dark) * u[:, None]
+        row = (row + (shine - row) * k).astype(np.uint8)
+        strip = pygame.Surface((w, 1), pygame.SRCALPHA)
+        pygame.surfarray.pixels3d(strip)[:, 0, :] = row
+        pygame.surfarray.pixels_alpha(strip)[:] = 255
+        img = mask.copy()
+        img.blit(pygame.transform.scale(strip, (w, h)), (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        surface.blit(img, img.get_rect(midleft=pos))
 
     def _draw_font_slider(self, surface, rect, y):
         row_h = 28 if self.ec_compact else EC_SLIDER_H
