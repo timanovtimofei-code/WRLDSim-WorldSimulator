@@ -223,7 +223,7 @@ class Eclipse:
     def _call(self):
         key = api_key(self.cfg.get("key_env", KEY_ENV))
         if not key:
-            raise RuntimeError(f"Нет ключа. Задайте {KEY_ENV} в системе или в файле .env рядом с main.py.")
+            raise RuntimeError(f"Нет ключа. Впишите {KEY_ENV}=ваш_ключ в файл .env рядом с игрой.")
         system = self._system_prompt()
         if self.era_block:
             system += "\n\n" + self.era_block
