@@ -1,0 +1,5 @@
+pygame-ce>=2.5
+numpy>=1.26
+shapely>=2.1
+pyshp>=2.3
+PyOpenGL>=3.1

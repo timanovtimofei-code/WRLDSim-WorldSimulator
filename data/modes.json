@@ -1,0 +1,138 @@
+{
+  "_comment": "Режимы и сложности. Все множители правятся здесь, код их только читает. Интервалы в игровых днях.",
+  "simulation": {
+    "turn_length_days": 1,
+    "_turn_note": "Скандалы 'раз в 3-10 дней' требуют хода короче месяца. Вероятность события за ход = 1 - exp(-turn_length_days / mean_interval_days)."
+  },
+  "modes": {
+    "realism": {
+      "name": "REALISM",
+      "enabled": true,
+      "tagline": "Как в жизни: за всё платишь.",
+      "summary": [
+        "Последствия копятся и не стираются: улики, свидетели и компромат попадают в скрытое досье.",
+        "Проверки, скандалы и силовики срабатывают с шансом, который зависит от досье, охраны, связей и заметности.",
+        "Деньги из воздуха не берутся. Дорогие покупки заметны, охрана и юристы стоят дорого и не всесильны.",
+        "Поражения настоящие: тюрьма, отставка или бегство за границу с потерей части активов.",
+        "15 слотов: у каждого героя свой слот, автосохранение после каждого действия, слоты можно удалять. Откатов нет."
+      ],
+      "default_difficulty": "medium",
+      "rules": {
+        "can_lose": true,
+        "dossier_enabled": true,
+        "consequences_persist": true,
+        "defeat_outcomes": [
+          "prison",
+          "resignation",
+          "exile"
+        ],
+        "exile": {
+          "allowed_before_arrest": true,
+          "asset_loss_min": 0.3,
+          "asset_loss_max": 0.7,
+          "_note": "Доля потерянных активов при бегстве - черновые значения, убежище зависит от страны (выдача, связи)."
+        },
+        "save_slots": 15,
+        "autosave_every_turn": true,
+        "allow_turn_undo": false,
+        "event_tone": "grim_realism"
+      },
+      "difficulties": {
+        "easy": {
+          "name": "Лёгкий",
+          "start_money_mult": 2.0,
+          "inspection_chance_mult": 0.6,
+          "scandal_mean_interval_days": 10,
+          "dossier_growth_mult": 0.7,
+          "price_mult": 0.8,
+          "bribe_fail_chance": 0.1,
+          "ally_betrayal_mult": 1.0
+        },
+        "medium": {
+          "name": "Средний",
+          "start_money_mult": 1.0,
+          "inspection_chance_mult": 1.0,
+          "scandal_mean_interval_days": 6,
+          "dossier_growth_mult": 1.0,
+          "price_mult": 1.0,
+          "bribe_fail_chance": 0.2,
+          "ally_betrayal_mult": 1.0
+        },
+        "hard": {
+          "name": "Сложный",
+          "start_money_mult": 0.5,
+          "inspection_chance_mult": 1.5,
+          "scandal_mean_interval_days": 3,
+          "dossier_growth_mult": 1.4,
+          "price_mult": 1.3,
+          "bribe_fail_chance": 0.35,
+          "ally_betrayal_mult": 1.5
+        }
+      }
+    },
+    "arcade": {
+      "name": "ARCADE",
+      "enabled": true,
+      "tagline": "Песочница ради кайфа, но за наглость бывает больно.",
+      "summary": [
+        "Проиграть нельзя: деньги не уходят в минус, игра не заканчивается.",
+        "Риски есть, но мягче, чем в Realism: штрафы, нападения, утечки. Чем выше «внимание», тем чаще и больнее.",
+        "Все страны и регионы открыты сразу. Time Control: перемотка времени от минуты до века.",
+        "Чит-окно (клавиша ~ или кнопка «Читы»): любая команда на русском или английском, сложные уходят в DeepSeek.",
+        "15 слотов: у каждого героя свой слот, автосохранение после каждого действия, слоты можно удалять. Откат хода откатывает и диалог ECLIPSE, и читы."
+      ],
+      "default_difficulty": null,
+      "rules": {
+        "can_lose": false,
+        "dossier_enabled": false,
+        "consequences_persist": false,
+        "all_regions_unlocked": true,
+        "cheat_console": {
+          "enabled": true,
+          "languages": [
+            "ru",
+            "en"
+          ],
+          "provider": "deepseek",
+          "_note": "Встроенные команды работают всегда. Остальное уходит в DeepSeek, если задан DEEPSEEK_API_KEY. Баланс и тексты - data/arcade.json."
+        },
+        "save_slots": 15,
+        "autosave_every_turn": true,
+        "allow_turn_undo": true,
+        "event_tone": "absurd"
+      },
+      "difficulties": {}
+    },
+    "anime": {
+      "name": "ANIME",
+      "enabled": true,
+      "tagline": "Любое аниме: назовите его, и ECLIPSE Prime найдёт мир в интернете.",
+      "summary": [
+        "Вводите любое название: ECLIPSE Prime ищет аниме в сети и собирает мир, героев и точки старта.",
+        "Играйте за героя канона или за собственного персонажа, попавшего в этот мир.",
+        "Проиграть нельзя; сюжет ведёт ведущий по правилам и характерам оригинала.",
+        "15 слотов, автосохранение после каждого действия, откат хода."
+      ],
+      "default_difficulty": null,
+      "rules": {
+        "can_lose": false,
+        "dossier_enabled": false,
+        "consequences_persist": false,
+        "all_regions_unlocked": true,
+        "cheat_console": {
+          "enabled": true,
+          "languages": [
+            "ru",
+            "en"
+          ],
+          "provider": "deepseek"
+        },
+        "save_slots": 15,
+        "autosave_every_turn": true,
+        "allow_turn_undo": true,
+        "event_tone": "anime"
+      },
+      "difficulties": {}
+    }
+  }
+}

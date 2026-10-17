@@ -1,0 +1,23 @@
+{
+  "_comment": "Режим Anime: переопределения поверх data/arcade.json (как realism.json). Случайных событий реального мира и рисков героя нет: сюжет ведёт ECLIPSE Prime по карточке мира аниме.",
+  "intro": "Вы в мире «{country}». Проиграть нельзя: история пойдёт дальше при любом исходе.",
+  "income_mult": 0,
+  "undo_depth": 30,
+  "events": {
+    "chance_per_day": 0,
+    "max_per_advance": 0,
+    "list": []
+  },
+  "risks": {
+    "enabled": false
+  },
+  "quiet_days": [
+    "Дни идут своим чередом.",
+    "Ничего громкого не случилось.",
+    "Мир живёт своей жизнью."
+  ],
+  "eclipse": {
+    "prompt_file": "data/eclipse_prompt_anime.txt",
+    "max_tokens": 2500
+  }
+}

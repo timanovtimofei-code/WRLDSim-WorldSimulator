@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.vs/
+data/raw/
+data/cache/shop_img/
+data/flags/
+saves/
+
+.env
+
+settings.json
+build/
+*.exe
+.claude/

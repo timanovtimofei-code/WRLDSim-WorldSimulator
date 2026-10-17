@@ -1,0 +1,3502 @@
+{
+  "_comment": "Справочник для исторического атласа (tools/build_history.py). aliases: настоящие синонимы названий в датасете historical-basemaps -> основное название. polities: основное название -> [название по-русски, цвет или null, флаг ISO2 из data/flags или null, флаг действует с года, id государства из polities_<эпоха>.json или null]. Цвет null: у зависимых территорий берётся оттенок метрополии (по полю SUBJECTO), у остальных - по хэшу. Чего здесь нет, показывается английским названием.",
+  "aliases": {
+    "Manchu Empire": "Qing Empire",
+    "United States of America": "United States",
+    "United Kingdom of Great Britain and Ireland": "United Kingdom",
+    "Ottoman Sultanate": "Ottoman Empire",
+    "Austro-Hungarian Empire": "Austria Hungary",
+    "Athabaskan": "Athabascan",
+    "Māori": "Maori",
+    "Gambia, The": "Gambia",
+    "Suriname": "Surinam",
+    "Dutch Guiana": "Surinam",
+    "Golkonda": "Golconda",
+    "Sindh": "Sind",
+    "Maratha": "Maratha Confederacy",
+    "Mahratta states": "Maratha Confederacy",
+    "Arabia (Nejd)": "Nejd",
+    "Imperial Japan": "Empire of Japan",
+    "French Indo-China": "French Indochina",
+    "Wadai Empire": "Wadai",
+    "Netherlands Indies": "Dutch East Indies",
+    "Angola (Portugal)": "Angola",
+    "Sultanate of Zanzibar": "Zanzibar",
+    "Luisiana": "Louisiana",
+    "Republic of Turkey": "Turkey",
+    "Swiss Confederation": "Switzerland",
+    "Senegal (FR)": "Senegal",
+    "Algeria (FR)": "Algeria",
+    "Libya (IT)": "Libya",
+    "Cuba (Spain)": "Cuba",
+    "Barbados (UK)": "Barbados",
+    "Jamaica (UK)": "Jamaica",
+    "Saint Kitts and Nevis (UK)": "Saint Kitts and Nevis",
+    "Zaire (Belgium)": "Belgian Congo",
+    "Rwanda (Belgium)": "Rwanda",
+    "Guyana (Netherlands)": "Guyana",
+    "New South Wales (UK)": "New South Wales",
+    "Queensland (UK)": "Queensland",
+    "South Australia (UK)": "South Australia",
+    "Western Australia (UK)": "Western Australia",
+    "Northern Territory (UK)": "Northern Territory",
+    "Victoria (UK)": "Victoria",
+    "Gold Coast (GB)": "Gold Coast",
+    "Milano (Austria)": "Milan",
+    "Ceylon (Dutch)": "Ceylon",
+    "Mysore (Indian princely state)": "Mysore",
+    "Sikkim (Indian princely state)": "Sikkim",
+    "Arakan (Indian princely state)": "Arakan",
+    "Cayenne": "French Guiana",
+    "Madagascar (France)": "Madagascar",
+    "Tuʻi Tonga Empire": "Tonga",
+    "Doolboong/Miriwoong": "Miriwoong",
+    "Tsardom of Muscovy": "Russian Empire",
+    "England and Ireland": "United Kingdom",
+    "Austrian Empire": "Austria Hungary",
+    "Dutch Republic": "Netherlands",
+    "Batavian Republic": "Netherlands",
+    "Republic of the Seven Zenden": "Netherlands",
+    "Tokugawa shogunate": "Empire of Japan",
+    "Japan": "Empire of Japan",
+    "Ayutthaya": "Siam",
+    "Rattanakosin Kingdom": "Siam",
+    "Kingdom of Sardinia": "Italy",
+    "Sardinia-Piedmont": "Italy",
+    "Kingdom of Italy": "Italy"
+  },
+  "polities": {
+    "Russian Empire": [
+      "Российская империя",
+      "#5a8f55",
+      "RU",
+      1883,
+      "russian_empire"
+    ],
+    "USSR": [
+      "СССР",
+      "#b53a3a",
+      null,
+      null,
+      null
+    ],
+    "White Russia": [
+      "Белая Россия",
+      "#8aa77a",
+      null,
+      null,
+      null
+    ],
+    "South Russia": [
+      "Юг России (белые)",
+      "#9bb58c",
+      null,
+      null,
+      null
+    ],
+    "Sakhalin (RU)": [
+      "Сахалин (Россия)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Far Eastern SSR": [
+      "Дальневосточная республика",
+      "#c05a5a",
+      null,
+      null,
+      null
+    ],
+    "Ukraine": [
+      "Украина",
+      "#d6c24a",
+      "UA",
+      1918,
+      null
+    ],
+    "Polish–Lithuanian Commonwealth": [
+      "Речь Посполитая",
+      "#c4566d",
+      null,
+      null,
+      null
+    ],
+    "Poland": [
+      "Польша",
+      "#d2677f",
+      "PL",
+      1918,
+      null
+    ],
+    "Republic of Kraków": [
+      "Краковская республика",
+      "#d2677f",
+      null,
+      null,
+      null
+    ],
+    "Lithuania": [
+      "Литва",
+      "#c9a24d",
+      "LT",
+      1918,
+      null
+    ],
+    "Latvia": [
+      "Латвия",
+      "#a3414e",
+      "LV",
+      1918,
+      null
+    ],
+    "Estonia": [
+      "Эстония",
+      "#5b86b5",
+      "EE",
+      1918,
+      null
+    ],
+    "Finland": [
+      "Финляндия",
+      "#8db5d6",
+      "FI",
+      1918,
+      null
+    ],
+    "Sweden": [
+      "Швеция",
+      "#4f7fb0",
+      "SE",
+      1650,
+      null
+    ],
+    "Sweden–Norway": [
+      "Швеция–Норвегия",
+      "#4f7fb0",
+      "SE",
+      1650,
+      null
+    ],
+    "Norway": [
+      "Норвегия",
+      "#9a4a58",
+      "NO",
+      1821,
+      null
+    ],
+    "Finnmark": [
+      "Финнмарк",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Denmark-Norway": [
+      "Дания–Норвегия",
+      "#c9605f",
+      "DK",
+      1650,
+      null
+    ],
+    "Denmark": [
+      "Дания",
+      "#c9605f",
+      "DK",
+      1650,
+      null
+    ],
+    "Greenland": [
+      "Гренландия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Iceland": [
+      "Исландия",
+      "#7aa5c7",
+      "IS",
+      1918,
+      null
+    ],
+    "Holstein": [
+      "Гольштейн",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Schleswig": [
+      "Шлезвиг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "United Kingdom": [
+      "Великобритания",
+      "#b94b5b",
+      "GB",
+      1801,
+      "british_empire"
+    ],
+    "Kingdom of Ireland": [
+      "Королевство Ирландия",
+      "#3f8f6a",
+      null,
+      null,
+      null
+    ],
+    "Scotland": [
+      "Шотландия",
+      "#7a8fc0",
+      null,
+      null,
+      null
+    ],
+    "British Raj": [
+      "Британская Индия",
+      null,
+      null,
+      null,
+      "british_india"
+    ],
+    "British East India Company": [
+      "Британская Ост-Индская компания",
+      null,
+      null,
+      null,
+      null
+    ],
+    "British American colonies": [
+      "Британские колонии в Америке",
+      null,
+      null,
+      null,
+      null
+    ],
+    "British East Africa": [
+      "Британская Восточная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "British Protectorate": [
+      "Британский протекторат",
+      null,
+      null,
+      null,
+      null
+    ],
+    "British Guiana": [
+      "Британская Гвиана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "British Somaliland": [
+      "Британское Сомали",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mandatory Palestine (GB)": [
+      "Подмандатная Палестина",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mesopotamia (GB)": [
+      "Месопотамия (Британия)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rupert's Land": [
+      "Земля Руперта",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dominion of Newfoundland": [
+      "Ньюфаундленд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hong Kong": [
+      "Гонконг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ceylon": [
+      "Цейлон",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Belize": [
+      "Британский Гондурас (Белиз)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Trinidad": [
+      "Тринидад",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mosquito Coast": [
+      "Москитовый берег",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Massachusetts Bay": [
+      "Массачусетс",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Virginia": [
+      "Виргиния",
+      null,
+      null,
+      null,
+      null
+    ],
+    "South Carolina": [
+      "Южная Каролина",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Jamaica": [
+      "Ямайка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Barbados": [
+      "Барбадос",
+      null,
+      null,
+      null,
+      null
+    ],
+    "New South Wales": [
+      "Новый Южный Уэльс",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Queensland": [
+      "Квинсленд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "South Australia": [
+      "Южная Австралия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Western Australia": [
+      "Западная Австралия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Northern Territory": [
+      "Северная территория",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Victoria": [
+      "Виктория",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Australia": [
+      "Австралия",
+      "#d4909a",
+      "AU",
+      1901,
+      null
+    ],
+    "Canada": [
+      "Канада",
+      "#d77d6c",
+      "CA",
+      1965,
+      null
+    ],
+    "Quebec": [
+      "Квебек",
+      null,
+      null,
+      null,
+      null
+    ],
+    "New Zealand": [
+      "Новая Зеландия",
+      "#d4909a",
+      "NZ",
+      1902,
+      null
+    ],
+    "Union of South Africa": [
+      "Южно-Африканский Союз",
+      "#c97a86",
+      "ZA",
+      1928,
+      null
+    ],
+    "Natal": [
+      "Наталь",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Griqualand West": [
+      "Грикваленд-Уэст",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Cape Colony": [
+      "Капская колония",
+      "#d99a63",
+      null,
+      null,
+      null
+    ],
+    "Transvaal": [
+      "Трансвааль",
+      "#8c7a4b",
+      null,
+      null,
+      null
+    ],
+    "Orange Free State": [
+      "Оранжевое Свободное государство",
+      "#d9894a",
+      null,
+      null,
+      null
+    ],
+    "France": [
+      "Франция",
+      "#4a6fb5",
+      "FR",
+      1794,
+      null
+    ],
+    "Franche-Comté": [
+      "Франш-Конте",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French Guiana": [
+      "Французская Гвиана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Guadeloupe": [
+      "Гваделупа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Martinique": [
+      "Мартиника",
+      null,
+      null,
+      null,
+      null
+    ],
+    "New France": [
+      "Новая Франция",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Louisiana": [
+      "Луизиана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French West Africa": [
+      "Французская Западная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French Equatorial Africa": [
+      "Французская Экваториальная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French Cameroons": [
+      "Французский Камерун",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French Somaliland": [
+      "Французское Сомали",
+      null,
+      null,
+      null,
+      null
+    ],
+    "French Indochina": [
+      "Французский Индокитай",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Syria (France)": [
+      "Сирия (Франция)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rio De Oro": [
+      "Рио-де-Оро",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Senegal": [
+      "Сенегал",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Algeria": [
+      "Алжир",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Madagascar": [
+      "Мадагаскар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Spain": [
+      "Испания",
+      "#d4a63c",
+      "ES",
+      1785,
+      null
+    ],
+    "Florida (Spain)": [
+      "Флорида (Испания)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hispaniola (Spain)": [
+      "Эспаньола (Испания)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Santo Domingo (Spain)": [
+      "Санто-Доминго (Испания)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Spanish Guinea": [
+      "Испанская Гвинея",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Spanish Morocco": [
+      "Испанское Марокко",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Spanish Sahara": [
+      "Испанская Сахара",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Viceroyalty of New Spain": [
+      "Вице-королевство Новая Испания",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Viceroyalty of Peru": [
+      "Вице-королевство Перу",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Viceroyalty of New Granada": [
+      "Вице-королевство Новая Гранада",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Viceroyalty of the Río de la Plata": [
+      "Вице-королевство Рио-де-ла-Плата",
+      null,
+      null,
+      null,
+      null
+    ],
+    "United Provinces of the Río de la Plata": [
+      "Объединённые провинции Рио-де-ла-Платы",
+      "#c99a45",
+      null,
+      null,
+      null
+    ],
+    "Cuba": [
+      "Куба",
+      "#6aa0c7",
+      "CU",
+      1902,
+      null
+    ],
+    "Philippines": [
+      "Филиппины",
+      "#e0bf57",
+      null,
+      null,
+      null
+    ],
+    "Portugal": [
+      "Португалия",
+      "#3f8a5e",
+      "PT",
+      1911,
+      null
+    ],
+    "Goa": [
+      "Гоа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Angola": [
+      "Ангола",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mozambique": [
+      "Мозамбик",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Portuguese East Africa": [
+      "Португальская Восточная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Portuguese Guinea": [
+      "Португальская Гвинея",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Delagoa Bay": [
+      "Делагоа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Viceroyalty of Brazil": [
+      "Вице-королевство Бразилия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Portuguese Brazil": [
+      "Португальская Бразилия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kingdom of Brazil": [
+      "Королевство Бразилия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Brazil": [
+      "Бразилия",
+      "#4aa05a",
+      "BR",
+      1889,
+      null
+    ],
+    "Netherlands": [
+      "Нидерланды",
+      "#e08a3c",
+      "NL",
+      1650,
+      null
+    ],
+    "Netherlands Antilles": [
+      "Нидерландские Антилы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "New Amsterdam": [
+      "Новый Амстердам",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dutch settlements": [
+      "Голландские фактории",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dutch Brazil": [
+      "Голландская Бразилия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dutch Formosa": [
+      "Голландская Формоза",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Surinam": [
+      "Суринам",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Guyana": [
+      "Гайана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Guiana": [
+      "Гвиана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Essequibo": [
+      "Эссекибо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dutch East Indies": [
+      "Голландская Ост-Индия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Belgium": [
+      "Бельгия",
+      "#e0c040",
+      "BE",
+      1831,
+      null
+    ],
+    "Austrian Netherlands": [
+      "Австрийские Нидерланды",
+      "#d6c68f",
+      null,
+      null,
+      null
+    ],
+    "Belgian Congo": [
+      "Бельгийское Конго",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rwanda": [
+      "Руанда",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Congo": [
+      "Конго",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Luxembourg": [
+      "Люксембург",
+      "#7fb7d4",
+      "LU",
+      1650,
+      null
+    ],
+    "Switzerland": [
+      "Швейцария",
+      "#cf5a5a",
+      "CH",
+      1650,
+      null
+    ],
+    "Helvetic Republic": [
+      "Гельветическая республика",
+      "#cf5a5a",
+      "CH",
+      1650,
+      null
+    ],
+    "Geneva": [
+      "Женева",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Holy Roman Empire": [
+      "Священная Римская империя",
+      "#b8b27a",
+      null,
+      null,
+      null
+    ],
+    "Austria Hungary": [
+      "Австро-Венгрия",
+      "#d6c68f",
+      null,
+      null,
+      "austria_hungary"
+    ],
+    "Austria": [
+      "Австрия",
+      "#d6c68f",
+      "AT",
+      1918,
+      null
+    ],
+    "Hungary": [
+      "Венгрия",
+      "#8fb08a",
+      "HU",
+      1918,
+      null
+    ],
+    "Czechoslovakia": [
+      "Чехословакия",
+      "#7e9fc7",
+      null,
+      null,
+      null
+    ],
+    "Prussia": [
+      "Пруссия",
+      "#6b7185",
+      null,
+      null,
+      "prussia"
+    ],
+    "East Prussia": [
+      "Восточная Пруссия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Brandenburg": [
+      "Бранденбург",
+      "#6b7185",
+      null,
+      null,
+      null
+    ],
+    "Hohenzollern": [
+      "Гогенцоллерн",
+      null,
+      null,
+      null,
+      null
+    ],
+    "German Empire": [
+      "Германская империя",
+      "#7b7f93",
+      null,
+      null,
+      "german_empire"
+    ],
+    "Germany": [
+      "Германия",
+      "#7b7f93",
+      "DE",
+      1919,
+      null
+    ],
+    "Danzig": [
+      "Данциг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "German E. Africa (Tanganyika)": [
+      "Германская Восточная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "German South-West Africa": [
+      "Германская Юго-Западная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kamerun": [
+      "Германский Камерун",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Togoland": [
+      "Германский Того",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Bavaria": [
+      "Бавария",
+      "#6f9fd4",
+      null,
+      null,
+      null
+    ],
+    "Saxony": [
+      "Саксония",
+      "#8a9f6a",
+      null,
+      null,
+      null
+    ],
+    "Thuringia": [
+      "Тюрингия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hanover": [
+      "Ганновер",
+      "#a89a78",
+      null,
+      null,
+      null
+    ],
+    "Brunswick": [
+      "Брауншвейг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Oldenburg": [
+      "Ольденбург",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Bremen": [
+      "Бремен",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hamburg": [
+      "Гамбург",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lübeck": [
+      "Любек",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Cuxhaven": [
+      "Куксхафен",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lippe-Detmold": [
+      "Липпе-Детмольд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Schaumburg-Lippe": [
+      "Шаумбург-Липпе",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Waldeck": [
+      "Вальдек",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Württemberg": [
+      "Вюртемберг",
+      "#b09ab5",
+      null,
+      null,
+      null
+    ],
+    "Baden": [
+      "Баден",
+      "#c7a85a",
+      null,
+      null,
+      null
+    ],
+    "Swabia": [
+      "Швабия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Electoral Hesse": [
+      "Гессен-Кассель",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Grand Duchy of Hesse": [
+      "Великое герцогство Гессен",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nassau": [
+      "Нассау",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Palatinate": [
+      "Пфальц",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Wetzlar": [
+      "Ветцлар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mecklenburg-Schwerin": [
+      "Мекленбург-Шверин",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mecklenburg-Strelitz": [
+      "Мекленбург-Штрелиц",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Anhalt": [
+      "Ангальт",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Italy": [
+      "Италия",
+      "#5aa36a",
+      "IT",
+      1861,
+      null
+    ],
+    "Dodecanese Islands": [
+      "Додеканес",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Italian Somaliland": [
+      "Итальянское Сомали",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Libya": [
+      "Ливия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sardinia": [
+      "Сардиния",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kingdom of the Two Sicilies": [
+      "Королевство Обеих Сицилий",
+      "#7ab07a",
+      null,
+      null,
+      null
+    ],
+    "Naples": [
+      "Неаполь",
+      "#7ab07a",
+      null,
+      null,
+      null
+    ],
+    "Sicily": [
+      "Сицилия",
+      "#7ab07a",
+      null,
+      null,
+      null
+    ],
+    "Papal States": [
+      "Папская область",
+      "#e6d9a8",
+      null,
+      null,
+      null
+    ],
+    "Tuscany": [
+      "Тоскана",
+      "#b6c98f",
+      null,
+      null,
+      null
+    ],
+    "Lucca": [
+      "Лукка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Massa": [
+      "Масса",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Fivizzano": [
+      "Фивиццано",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Pontremoli": [
+      "Понтремоли",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Modena": [
+      "Модена",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Parma": [
+      "Парма",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Venice": [
+      "Венеция",
+      "#7fa8d6",
+      null,
+      null,
+      null
+    ],
+    "Venetia": [
+      "Венето",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Milan": [
+      "Милан",
+      "#c8b87f",
+      null,
+      null,
+      null
+    ],
+    "Lombardy": [
+      "Ломбардия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Genoa": [
+      "Генуя",
+      "#d6877a",
+      null,
+      null,
+      null
+    ],
+    "San Marino": [
+      "Сан-Марино",
+      "#8fc7e6",
+      "SM",
+      1650,
+      null
+    ],
+    "Malta": [
+      "Мальта",
+      "#cf6a6a",
+      null,
+      null,
+      null
+    ],
+    "Ottoman Empire": [
+      "Османская империя",
+      "#c9a23f",
+      "TR",
+      1844,
+      "ottoman_empire"
+    ],
+    "Turkey": [
+      "Турция",
+      "#d2584a",
+      "TR",
+      1923,
+      null
+    ],
+    "Algiers": [
+      "Алжирское регентство",
+      "#bfa05e",
+      null,
+      null,
+      null
+    ],
+    "Tunis": [
+      "Тунис",
+      "#cfae6a",
+      "TN",
+      1831,
+      null
+    ],
+    "Tunisia": [
+      "Тунис (протекторат)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Tripolitania": [
+      "Триполитания",
+      "#bf9a55",
+      null,
+      null,
+      null
+    ],
+    "Cyrenaica": [
+      "Киренаика",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Egypt": [
+      "Египет",
+      "#d9b96b",
+      "EG",
+      1882,
+      "egypt_khedives"
+    ],
+    "Harer (Egypt)": [
+      "Харэр (Египет)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sudan": [
+      "Судан",
+      "#b59a5e",
+      null,
+      null,
+      null
+    ],
+    "Anglo-Egyptian Sudan": [
+      "Англо-египетский Судан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Funj": [
+      "Сеннар (Фундж)",
+      "#b59a5e",
+      null,
+      null,
+      null
+    ],
+    "Darfur": [
+      "Дарфур",
+      "#b59a5e",
+      null,
+      null,
+      null
+    ],
+    "Tukular Caliphate": [
+      "Тукулорская империя",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rabih az-Zubayr": [
+      "Государство Рабиха",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Morocco": [
+      "Марокко",
+      "#c75a5a",
+      "MA",
+      1915,
+      null
+    ],
+    "Ethiopia": [
+      "Эфиопия",
+      "#5a9f6a",
+      null,
+      null,
+      "ethiopia_empire"
+    ],
+    "Abyssinia": [
+      "Абиссиния",
+      "#5a9f6a",
+      null,
+      null,
+      "ethiopia_empire"
+    ],
+    "Eritrea": [
+      "Эритрея",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Djibouti": [
+      "Джибути",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Somalia": [
+      "Сомали",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Safavid Empire": [
+      "Сефевидская империя",
+      "#6aa59a",
+      null,
+      null,
+      null
+    ],
+    "Persia": [
+      "Персия (Каджары)",
+      "#5a9a8f",
+      null,
+      null,
+      "qajar"
+    ],
+    "Iran": [
+      "Иран",
+      "#5a9a8f",
+      "IR",
+      1925,
+      null
+    ],
+    "Afghanistan": [
+      "Афганистан",
+      "#8a6fa8",
+      null,
+      null,
+      null
+    ],
+    "central Asian khanates": [
+      "Среднеазиатские ханства",
+      "#b59a6b",
+      null,
+      null,
+      null
+    ],
+    "Bokhara Khanate": [
+      "Бухарское ханство",
+      "#b59a6b",
+      null,
+      null,
+      null
+    ],
+    "Khiva Khanate": [
+      "Хивинское ханство",
+      "#c0a878",
+      null,
+      null,
+      null
+    ],
+    "Quazaq Khanate": [
+      "Казахское ханство",
+      "#a8b58a",
+      null,
+      null,
+      null
+    ],
+    "Nogai Horde": [
+      "Ногайская орда",
+      "#a8a07a",
+      null,
+      null,
+      null
+    ],
+    "Turan": [
+      "Туран",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mughal Empire": [
+      "Империя Великих Моголов",
+      "#a8c46b",
+      null,
+      null,
+      "mughal_decline"
+    ],
+    "Maratha Confederacy": [
+      "Маратхская конфедерация",
+      "#e0a05a",
+      null,
+      null,
+      null
+    ],
+    "Bundelkhand": [
+      "Бундельханд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sikhs": [
+      "Сикхское государство",
+      "#d98a5a",
+      null,
+      null,
+      "sikh_empire"
+    ],
+    "Lahore": [
+      "Лахор",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Multan": [
+      "Мултан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nizam's Dominions": [
+      "Хайдарабад (Низам)",
+      "#6fb0a0",
+      null,
+      null,
+      null
+    ],
+    "Golconda": [
+      "Голконда",
+      "#6fb0a0",
+      null,
+      null,
+      null
+    ],
+    "Bijapur": [
+      "Биджапур",
+      "#7fb8a8",
+      null,
+      null,
+      null
+    ],
+    "Ahmadnagar": [
+      "Ахмаднагар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Bidar": [
+      "Бидар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Gooty": [
+      "Гутти",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ambur": [
+      "Амбур",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mysore": [
+      "Майсур",
+      "#c8b04e",
+      null,
+      null,
+      null
+    ],
+    "Kanara": [
+      "Канара",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Malabar": [
+      "Малабар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Carnatic": [
+      "Карнатик",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Madras": [
+      "Мадрас",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Circars": [
+      "Северные Циркары",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Bengal": [
+      "Бенгалия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "India": [
+      "Индия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rajputs": [
+      "Раджпуты",
+      "#d6b878",
+      null,
+      null,
+      null
+    ],
+    "Oudh": [
+      "Ауд",
+      "#d6b878",
+      null,
+      null,
+      null
+    ],
+    "Travancore": [
+      "Траванкор",
+      "#d6b878",
+      null,
+      null,
+      null
+    ],
+    "Cochin": [
+      "Кочин",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sikkim": [
+      "Сикким",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Arakan": [
+      "Аракан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Bahawalpur": [
+      "Бахавалпур",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sind": [
+      "Синд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Assam": [
+      "Ассам",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hindu kingdoms": [
+      "Индуистские княжества",
+      "#d6b878",
+      null,
+      null,
+      null
+    ],
+    "Islamic and Hindu states": [
+      "Индийские княжества",
+      "#d6b878",
+      null,
+      null,
+      null
+    ],
+    "Vijayanagara": [
+      "Виджаянагар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kandy": [
+      "Кандианское королевство",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nepal": [
+      "Непал",
+      "#c8566b",
+      "NP",
+      1650,
+      null
+    ],
+    "Bhutan": [
+      "Бутан",
+      "#e8a04a",
+      "BT",
+      1650,
+      null
+    ],
+    "Tibet": [
+      "Тибет",
+      "#b8604f",
+      null,
+      null,
+      null
+    ],
+    "Qing Empire": [
+      "Империя Цин",
+      "#d9b84a",
+      null,
+      null,
+      "qing"
+    ],
+    "Post-Ming Warlords": [
+      "Осколки Мин",
+      "#c9a35a",
+      null,
+      null,
+      null
+    ],
+    "Chinese Warlords": [
+      "Китайские милитаристы",
+      "#c9a35a",
+      null,
+      null,
+      null
+    ],
+    "Manchuria": [
+      "Маньчжурия",
+      "#d6a85a",
+      null,
+      null,
+      null
+    ],
+    "Xinjiang": [
+      "Синьцзян",
+      "#b0a06b",
+      null,
+      null,
+      null
+    ],
+    "Mongolia": [
+      "Монголия",
+      "#9a7fb0",
+      "MN",
+      1921,
+      null
+    ],
+    "Taiwan": [
+      "Тайвань",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Korea": [
+      "Корея",
+      "#6a8fc7",
+      "KR",
+      1883,
+      "korean_empire"
+    ],
+    "Empire of Japan": [
+      "Японская империя",
+      "#d68aa0",
+      "JP",
+      1870,
+      "japanese_empire"
+    ],
+    "Ainu": [
+      "Айны",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kuril Islands": [
+      "Курильские острова",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Siam": [
+      "Сиам",
+      "#b565a0",
+      "TH",
+      1917,
+      "siam"
+    ],
+    "Lan Na": [
+      "Ланна",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Shan states": [
+      "Шанские княжества",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Burma": [
+      "Бирма",
+      "#8aa85a",
+      null,
+      null,
+      null
+    ],
+    "Ava": [
+      "Ава",
+      "#8aa85a",
+      null,
+      null,
+      null
+    ],
+    "Đại Việt": [
+      "Дайвьет",
+      "#c0604f",
+      null,
+      null,
+      null
+    ],
+    "Annam": [
+      "Аннам",
+      "#c0604f",
+      null,
+      null,
+      null
+    ],
+    "Cochin China": [
+      "Кохинхина",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Cambodia": [
+      "Камбоджа",
+      "#9a6fb0",
+      "KH",
+      1650,
+      null
+    ],
+    "Laos": [
+      "Лаос",
+      "#a08ac7",
+      null,
+      null,
+      null
+    ],
+    "Laotian states": [
+      "Лаосские государства",
+      "#a08ac7",
+      null,
+      null,
+      null
+    ],
+    "Malaya": [
+      "Малайя",
+      "#d0a05a",
+      null,
+      null,
+      null
+    ],
+    "Malaysia": [
+      "Малайзия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Brunei": [
+      "Бруней",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Papua New Guinea": [
+      "Папуа — Новая Гвинея",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Papuans": [
+      "Папуасы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kingdom of Hawaii": [
+      "Королевство Гавайи",
+      "#8fb5c7",
+      null,
+      null,
+      null
+    ],
+    "Samoa": [
+      "Самоа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "American Samoa": [
+      "Американское Самоа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Tonga": [
+      "Тонга",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Fiji": [
+      "Фиджи",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Maori": [
+      "Маори",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Polynesians": [
+      "Полинезийцы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "United States": [
+      "США",
+      "#4a7fc0",
+      "US",
+      1818,
+      "usa_expansion"
+    ],
+    "United States Virgin Islands": [
+      "Виргинские острова США",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Puerto Rico": [
+      "Пуэрто-Рико",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mexico": [
+      "Мексика",
+      "#5aa388",
+      "MX",
+      1823,
+      null
+    ],
+    "Guatemala": [
+      "Гватемала",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Honduras": [
+      "Гондурас",
+      null,
+      null,
+      null,
+      null
+    ],
+    "El Salvador": [
+      "Сальвадор",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nicaragua": [
+      "Никарагуа",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Costa Rica": [
+      "Коста-Рика",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Panama": [
+      "Панама",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Haiti": [
+      "Гаити",
+      "#c95a6b",
+      "HT",
+      1650,
+      null
+    ],
+    "Dominican Republic": [
+      "Доминиканская Республика",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Colombia": [
+      "Колумбия",
+      "#e0c05a",
+      null,
+      null,
+      null
+    ],
+    "Venezuela": [
+      "Венесуэла",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ecuador": [
+      "Эквадор",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Peru": [
+      "Перу",
+      "#d9695a",
+      null,
+      null,
+      null
+    ],
+    "Bolivia": [
+      "Боливия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Chile": [
+      "Чили",
+      "#cf6a6a",
+      "CL",
+      1817,
+      null
+    ],
+    "Argentina": [
+      "Аргентина",
+      "#7fb5d9",
+      "AR",
+      1818,
+      null
+    ],
+    "Uruguay": [
+      "Уругвай",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Paraguay": [
+      "Парагвай",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Greece": [
+      "Греция",
+      "#6f9fd6",
+      "GR",
+      1822,
+      null
+    ],
+    "Serbia": [
+      "Сербия",
+      "#b05a6f",
+      "RS",
+      1650,
+      null
+    ],
+    "Bulgaria": [
+      "Болгария",
+      "#7fa56b",
+      "BG",
+      1878,
+      null
+    ],
+    "Romania": [
+      "Румыния",
+      "#d6c05a",
+      "RO",
+      1866,
+      null
+    ],
+    "Montenegro": [
+      "Черногория",
+      "#a8506b",
+      null,
+      null,
+      null
+    ],
+    "Albania": [
+      "Албания",
+      "#b04a4a",
+      null,
+      null,
+      null
+    ],
+    "Bosnia-Herzegovina": [
+      "Босния и Герцеговина",
+      "#7a9fc7",
+      null,
+      null,
+      null
+    ],
+    "Yugoslavia": [
+      "Югославия",
+      "#6f85b5",
+      null,
+      null,
+      null
+    ],
+    "Georgia": [
+      "Грузия",
+      "#c9606f",
+      null,
+      null,
+      null
+    ],
+    "Armenia": [
+      "Армения",
+      "#d9894a",
+      null,
+      null,
+      null
+    ],
+    "Azerbaijan": [
+      "Азербайджан",
+      "#6aa8a0",
+      null,
+      null,
+      null
+    ],
+    "Nejd": [
+      "Неджд",
+      "#7aa56b",
+      null,
+      null,
+      null
+    ],
+    "Arabia": [
+      "Аравия",
+      "#7aa56b",
+      null,
+      null,
+      null
+    ],
+    "Hail": [
+      "Хаиль",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hejaz": [
+      "Хиджаз",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Oman": [
+      "Оман",
+      "#c09a5a",
+      null,
+      null,
+      null
+    ],
+    "Muscat and Oman": [
+      "Маскат и Оман",
+      "#c09a5a",
+      null,
+      null,
+      null
+    ],
+    "Trucial Oman": [
+      "Договорный Оман",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Yemen": [
+      "Йемен",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hadramaut": [
+      "Хадрамаут",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mahra": [
+      "Махра",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kuwait": [
+      "Кувейт",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Qatar": [
+      "Катар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sokoto Caliphate": [
+      "Сокотский халифат",
+      "#a8b56b",
+      null,
+      null,
+      null
+    ],
+    "Fulani Empire": [
+      "Империя фульбе",
+      "#a8b56b",
+      null,
+      null,
+      null
+    ],
+    "Hausa States": [
+      "Государства хауса",
+      "#b5c07a",
+      null,
+      null,
+      null
+    ],
+    "Borgu States": [
+      "Государства Боргу",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kanem-Bornu": [
+      "Канем-Борну",
+      "#c7a56b",
+      null,
+      null,
+      null
+    ],
+    "Wadai": [
+      "Вадаи",
+      "#c7a56b",
+      null,
+      null,
+      null
+    ],
+    "Bagirmi": [
+      "Багирми",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Asante": [
+      "Ашанти",
+      "#d9a84a",
+      null,
+      null,
+      null
+    ],
+    "Akan": [
+      "Акан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Fante": [
+      "Фанти",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Gold Coast": [
+      "Золотой Берег",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dahomey": [
+      "Дагомея",
+      "#c98a5a",
+      null,
+      null,
+      null
+    ],
+    "Oyo": [
+      "Ойо",
+      "#c98a5a",
+      null,
+      null,
+      null
+    ],
+    "Benin": [
+      "Бенин",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lagos": [
+      "Лагос",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ibadan": [
+      "Ибадан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Calabar": [
+      "Калабар",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Opobo": [
+      "Опобо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nigeria": [
+      "Нигерия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ghana": [
+      "Гана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Togo": [
+      "Того",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Zulu": [
+      "Зулу",
+      "#7aa56f",
+      null,
+      null,
+      "zulu"
+    ],
+    "Zululand": [
+      "Зулуленд",
+      "#7aa56f",
+      null,
+      null,
+      "zulu"
+    ],
+    "Nguni": [
+      "Нгуни",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ndebele": [
+      "Ндебеле",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Xhosa": [
+      "Коса",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sotho": [
+      "Сото",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Basutoland": [
+      "Басутоленд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Swaziland": [
+      "Свазиленд",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lesotho": [
+      "Лесото",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Botswana": [
+      "Ботсвана",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Zimbabwe": [
+      "Зимбабве",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rhodesia": [
+      "Родезия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Zambia": [
+      "Замбия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Malawi": [
+      "Малави",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Shona": [
+      "Шона",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Rozwi": [
+      "Розви",
+      null,
+      null,
+      null,
+      null
+    ],
+    "South Africa": [
+      "Южная Африка",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Imerina": [
+      "Имерина",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Merina Kingdom": [
+      "Королевство Мерина (Мадагаскар)",
+      "#c5806a",
+      null,
+      null,
+      null
+    ],
+    "Zanzibar": [
+      "Занзибар",
+      "#c9985a",
+      null,
+      null,
+      null
+    ],
+    "Tanzania, United Republic of": [
+      "Танганьика",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Buganda": [
+      "Буганда",
+      "#b5a06a",
+      null,
+      null,
+      null
+    ],
+    "Bunyoro": [
+      "Буньоро",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Nkore": [
+      "Нкоре",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Burundi": [
+      "Бурунди",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Uganda": [
+      "Уганда",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kenya": [
+      "Кения",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Oromo": [
+      "Оромо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Liberia": [
+      "Либерия",
+      "#6a8fc0",
+      "LR",
+      1847,
+      null
+    ],
+    "Sierra Leone": [
+      "Сьерра-Леоне",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Gambia": [
+      "Гамбия",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Guinea-Bissau": [
+      "Гвинея-Бисау",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ivory Coast": [
+      "Берег Слоновой Кости",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Gabon": [
+      "Габон",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Equatorial Guinea": [
+      "Экваториальная Гвинея",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mali": [
+      "Мали",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lunda": [
+      "Лунда",
+      "#9ab56a",
+      null,
+      null,
+      null
+    ],
+    "Luba": [
+      "Луба",
+      "#9ab56a",
+      null,
+      null,
+      null
+    ],
+    "Kazembe": [
+      "Казембе",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kuba": [
+      "Куба (Африка)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Yeke": [
+      "Государство Мсири (Йеке)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Lozi": [
+      "Лози",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Barotse": [
+      "Баротсе",
+      null,
+      null,
+      null,
+      null
+    ],
+    "First Samori Empire": [
+      "Империя Самори (первая)",
+      "#b59a4f",
+      null,
+      null,
+      null
+    ],
+    "Second Samori Empire": [
+      "Империя Самори (вторая)",
+      "#b59a4f",
+      null,
+      null,
+      null
+    ],
+    "Wassoulou Empire": [
+      "Васулу",
+      "#b59a4f",
+      null,
+      null,
+      null
+    ],
+    "Kong": [
+      "Конг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kong Empire": [
+      "Империя Конг",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Segu": [
+      "Сегу",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kaarta": [
+      "Каарта",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Futa Toro": [
+      "Фута-Торо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Futa Jalon": [
+      "Фута-Джаллон",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Tekrur": [
+      "Текрур",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Songhai": [
+      "Сонгай",
+      "#c0a86a",
+      null,
+      null,
+      null
+    ],
+    "Mossi States": [
+      "Государства моси",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Dendi Kingdom": [
+      "Королевство Денди",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Air": [
+      "Эйр",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sultanate of Damagaram": [
+      "Султанат Дамагарам",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Jukun": [
+      "Джукун",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ovimbundu": [
+      "Овимбунду",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mbailundu": [
+      "Мбаилунду",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Imbangala": [
+      "Имбангала",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Teke": [
+      "Теке",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Africa": [
+      "Африка",
+      "#8a8f7a",
+      null,
+      null,
+      null
+    ],
+    "Rift Valley States": [
+      "Государства Рифтовой долины",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Hopie": [
+      "Хопи",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Iroquois": [
+      "Ирокезы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Cherokee": [
+      "Чероки",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Comanche": [
+      "Команчи",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Cree": [
+      "Кри",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Blackfoot": [
+      "Чёрные Ноги",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sioux": [
+      "Сиу",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Teton": [
+      "Teton (лакота)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Maya": [
+      "Майя",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mapuche": [
+      "Мапуче",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Chukchi": [
+      "Чукчи",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Koryaks": [
+      "Коряки",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Itelmen": [
+      "Ительмены",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Amazon hunter-gatherers": [
+      "Охотники-собиратели Амазонии",
+      null,
+      null,
+      null,
+      null
+    ],
+    "T'atsaot'ine": [
+      "Татсаотин (йеллоунайф)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Athabascan": [
+      "Атабаски",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Pampas cultures": [
+      "Народы пампасов",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Savanna hunter-gatherers": [
+      "Охотники-собиратели саванны",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Inupiaq": [
+      "Инупиаты",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Emirate of Bin Shal'an": [
+      "Эмират Бин Шалан",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Subarctic forest hunter-gatherers": [
+      "Охотники-собиратели субарктических лесов",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sahtu": [
+      "Сахту",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Shoshoni": [
+      "Шошоны",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Naskapi Innu": [
+      "Наскапи (инну)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Montagnais Innu": [
+      "Монтанье (инну)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Assiniboin": [
+      "Ассинибойны",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Yup'ik & Cup'ik": [
+      "Юпикские народы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Ute": [
+      "Юты",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Patagonian shellfish and marine mammal hunters": [
+      "Охотники Патагонии",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Northern Paiute": [
+      "Северные пайюты",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Southern Paiute": [
+      "Южные пайюты",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Illinois": [
+      "Иллинойс (индейцы)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Modoc": [
+      "Модоки",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mi'kma'ki": [
+      "Микмаки",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Osage": [
+      "Осейджи",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Arapaho": [
+      "Арапахо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Crow": [
+      "Кроу",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Mescalero": [
+      "Мескалеро",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kalispel": [
+      "Калиспелы",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Shawnee": [
+      "Шауни",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Florida": [
+      "Флорида",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Santee": [
+      "Санти (сиу)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Kiowa": [
+      "Киова",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Erie": [
+      "Эри (индейцы)",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Caddo": [
+      "Каддо",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Pawnee": [
+      "Пауни",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Wichita": [
+      "Уичита",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Catawba": [
+      "Катоба",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Australian aboriginal hunter-gatherers": [
+      "Аборигены Австралии",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Aboriginal Tasmanians": [
+      "Тасманийские аборигены",
+      null,
+      null,
+      null,
+      null
+    ],
+    "Sultanate of Utetera": [
+      "Султанат Утетера",
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "periods": {
+    "Russian Empire": [
+      [
+        -9999,
+        "Русское царство"
+      ],
+      [
+        1721,
+        "Российская империя"
+      ]
+    ],
+    "United Kingdom": [
+      [
+        -9999,
+        "Англия и Ирландия"
+      ],
+      [
+        1707,
+        "Великобритания"
+      ],
+      [
+        1801,
+        "Соединённое Королевство"
+      ]
+    ],
+    "Austria Hungary": [
+      [
+        -9999,
+        "Габсбургская монархия"
+      ],
+      [
+        1804,
+        "Австрийская империя"
+      ],
+      [
+        1867,
+        "Австро-Венгрия"
+      ]
+    ],
+    "Netherlands": [
+      [
+        -9999,
+        "Республика Соединённых провинций"
+      ],
+      [
+        1795,
+        "Батавская республика"
+      ],
+      [
+        1815,
+        "Нидерланды"
+      ]
+    ],
+    "Empire of Japan": [
+      [
+        -9999,
+        "Сёгунат Токугава"
+      ],
+      [
+        1868,
+        "Японская империя"
+      ]
+    ],
+    "Siam": [
+      [
+        -9999,
+        "Аюттхая"
+      ],
+      [
+        1782,
+        "Сиам (Раттанакосин)"
+      ],
+      [
+        1932,
+        "Сиам"
+      ]
+    ],
+    "Italy": [
+      [
+        -9999,
+        "Сардинское королевство"
+      ],
+      [
+        1861,
+        "Королевство Италия"
+      ],
+      [
+        1946,
+        "Италия"
+      ]
+    ],
+    "France": [
+      [
+        -9999,
+        "Королевство Франция"
+      ],
+      [
+        1792,
+        "Французская республика"
+      ],
+      [
+        1804,
+        "Французская империя"
+      ],
+      [
+        1815,
+        "Королевство Франция"
+      ],
+      [
+        1848,
+        "Вторая республика"
+      ],
+      [
+        1852,
+        "Вторая империя"
+      ],
+      [
+        1870,
+        "Третья республика"
+      ]
+    ],
+    "Spain": [
+      [
+        -9999,
+        "Испания"
+      ]
+    ]
+  }
+}

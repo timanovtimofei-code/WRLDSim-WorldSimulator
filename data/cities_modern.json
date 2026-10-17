@@ -1,0 +1,1208 @@
+{
+"_comment": "Города современности: население агломерации в тыс., оценка 2026 года (округлено).",
+"anchors": [
+2026
+],
+"cities": [
+{
+"ru": "Токио",
+"lon": 139.69,
+"lat": 35.69,
+"founded": null,
+"pop": [
+37000
+],
+"port": true
+},
+{
+"ru": "Дели",
+"lon": 77.21,
+"lat": 28.61,
+"founded": null,
+"pop": [
+33000
+],
+"port": false
+},
+{
+"ru": "Шанхай",
+"lon": 121.47,
+"lat": 31.23,
+"founded": null,
+"pop": [
+29000
+],
+"port": true
+},
+{
+"ru": "Дакка",
+"lon": 90.41,
+"lat": 23.81,
+"founded": null,
+"pop": [
+23000
+],
+"port": false
+},
+{
+"ru": "Сан-Паулу",
+"lon": -46.63,
+"lat": -23.55,
+"founded": null,
+"pop": [
+22000
+],
+"port": false
+},
+{
+"ru": "Каир",
+"lon": 31.24,
+"lat": 30.04,
+"founded": null,
+"pop": [
+22000
+],
+"port": false
+},
+{
+"ru": "Мехико",
+"lon": -99.13,
+"lat": 19.43,
+"founded": null,
+"pop": [
+22000
+],
+"port": false
+},
+{
+"ru": "Пекин",
+"lon": 116.4,
+"lat": 39.9,
+"founded": null,
+"pop": [
+21000
+],
+"port": false
+},
+{
+"ru": "Мумбаи",
+"lon": 72.88,
+"lat": 19.08,
+"founded": null,
+"pop": [
+21000
+],
+"port": true
+},
+{
+"ru": "Осака",
+"lon": 135.5,
+"lat": 34.69,
+"founded": null,
+"pop": [
+19000
+],
+"port": true
+},
+{
+"ru": "Чунцин",
+"lon": 106.55,
+"lat": 29.56,
+"founded": null,
+"pop": [
+17000
+],
+"port": false
+},
+{
+"ru": "Карачи",
+"lon": 67.0,
+"lat": 24.86,
+"founded": null,
+"pop": [
+17000
+],
+"port": true
+},
+{
+"ru": "Стамбул",
+"lon": 28.98,
+"lat": 41.01,
+"founded": null,
+"pop": [
+16000
+],
+"port": true
+},
+{
+"ru": "Киншаса",
+"lon": 15.27,
+"lat": -4.32,
+"founded": null,
+"pop": [
+17000
+],
+"port": false
+},
+{
+"ru": "Лагос",
+"lon": 3.38,
+"lat": 6.52,
+"founded": null,
+"pop": [
+16000
+],
+"port": true
+},
+{
+"ru": "Буэнос-Айрес",
+"lon": -58.38,
+"lat": -34.6,
+"founded": null,
+"pop": [
+15500
+],
+"port": true
+},
+{
+"ru": "Калькутта",
+"lon": 88.36,
+"lat": 22.57,
+"founded": null,
+"pop": [
+15000
+],
+"port": true
+},
+{
+"ru": "Манила",
+"lon": 120.98,
+"lat": 14.6,
+"founded": null,
+"pop": [
+14000
+],
+"port": true
+},
+{
+"ru": "Тяньцзинь",
+"lon": 117.2,
+"lat": 39.13,
+"founded": null,
+"pop": [
+14000
+],
+"port": true
+},
+{
+"ru": "Рио-де-Жанейро",
+"lon": -43.17,
+"lat": -22.91,
+"founded": null,
+"pop": [
+13500
+],
+"port": true
+},
+{
+"ru": "Лахор",
+"lon": 74.34,
+"lat": 31.55,
+"founded": null,
+"pop": [
+13500
+],
+"port": false
+},
+{
+"ru": "Бангалор",
+"lon": 77.59,
+"lat": 12.97,
+"founded": null,
+"pop": [
+13000
+],
+"port": false
+},
+{
+"ru": "Гуанчжоу",
+"lon": 113.26,
+"lat": 23.13,
+"founded": null,
+"pop": [
+13500
+],
+"port": true
+},
+{
+"ru": "Москва",
+"lon": 37.62,
+"lat": 55.75,
+"founded": null,
+"pop": [
+13000
+],
+"port": false
+},
+{
+"ru": "Шэньчжэнь",
+"lon": 114.06,
+"lat": 22.54,
+"founded": null,
+"pop": [
+13000
+],
+"port": true
+},
+{
+"ru": "Ченнаи",
+"lon": 80.27,
+"lat": 13.08,
+"founded": null,
+"pop": [
+11500
+],
+"port": true
+},
+{
+"ru": "Богота",
+"lon": -74.07,
+"lat": 4.71,
+"founded": null,
+"pop": [
+11500
+],
+"port": false
+},
+{
+"ru": "Джакарта",
+"lon": 106.85,
+"lat": -6.2,
+"founded": null,
+"pop": [
+11000
+],
+"port": true
+},
+{
+"ru": "Лима",
+"lon": -77.04,
+"lat": -12.05,
+"founded": null,
+"pop": [
+11000
+],
+"port": true
+},
+{
+"ru": "Бангкок",
+"lon": 100.5,
+"lat": 13.75,
+"founded": null,
+"pop": [
+11000
+],
+"port": true
+},
+{
+"ru": "Хайдарабад",
+"lon": 78.47,
+"lat": 17.38,
+"founded": null,
+"pop": [
+11000
+],
+"port": false
+},
+{
+"ru": "Сеул",
+"lon": 126.98,
+"lat": 37.57,
+"founded": null,
+"pop": [
+10000
+],
+"port": false
+},
+{
+"ru": "Лондон",
+"lon": -0.12,
+"lat": 51.5,
+"founded": null,
+"pop": [
+9800
+],
+"port": false
+},
+{
+"ru": "Тегеран",
+"lon": 51.39,
+"lat": 35.69,
+"founded": null,
+"pop": [
+9500
+],
+"port": false
+},
+{
+"ru": "Нагоя",
+"lon": 136.9,
+"lat": 35.18,
+"founded": null,
+"pop": [
+9500
+],
+"port": false
+},
+{
+"ru": "Хошимин",
+"lon": 106.7,
+"lat": 10.78,
+"founded": null,
+"pop": [
+9300
+],
+"port": true
+},
+{
+"ru": "Чикаго",
+"lon": -87.63,
+"lat": 41.88,
+"founded": null,
+"pop": [
+8900
+],
+"port": false
+},
+{
+"ru": "Нью-Йорк",
+"lon": -74.0,
+"lat": 40.71,
+"founded": null,
+"pop": [
+18800
+],
+"port": true
+},
+{
+"ru": "Лос-Анджелес",
+"lon": -118.24,
+"lat": 34.05,
+"founded": null,
+"pop": [
+12500
+],
+"port": true
+},
+{
+"ru": "Париж",
+"lon": 2.35,
+"lat": 48.86,
+"founded": null,
+"pop": [
+11300
+],
+"port": false
+},
+{
+"ru": "Багдад",
+"lon": 44.37,
+"lat": 33.31,
+"founded": null,
+"pop": [
+8000
+],
+"port": false
+},
+{
+"ru": "Эр-Рияд",
+"lon": 46.72,
+"lat": 24.71,
+"founded": null,
+"pop": [
+8000
+],
+"port": false
+},
+{
+"ru": "Ханой",
+"lon": 105.85,
+"lat": 21.03,
+"founded": null,
+"pop": [
+8500
+],
+"port": false
+},
+{
+"ru": "Хартум",
+"lon": 32.5,
+"lat": 15.5,
+"founded": null,
+"pop": [
+6000
+],
+"port": false
+},
+{
+"ru": "Сантьяго",
+"lon": -70.65,
+"lat": -33.45,
+"founded": null,
+"pop": [
+7000
+],
+"port": false
+},
+{
+"ru": "Мадрид",
+"lon": -3.7,
+"lat": 40.42,
+"founded": null,
+"pop": [
+6800
+],
+"port": false
+},
+{
+"ru": "Торонто",
+"lon": -79.38,
+"lat": 43.65,
+"founded": null,
+"pop": [
+6500
+],
+"port": false
+},
+{
+"ru": "Йоханнесбург",
+"lon": 28.04,
+"lat": -26.2,
+"founded": null,
+"pop": [
+6200
+],
+"port": false
+},
+{
+"ru": "Санкт-Петербург",
+"lon": 30.32,
+"lat": 59.93,
+"founded": null,
+"pop": [
+5600
+],
+"port": true
+},
+{
+"ru": "Сингапур",
+"lon": 103.82,
+"lat": 1.35,
+"founded": null,
+"pop": [
+6000
+],
+"port": true
+},
+{
+"ru": "Берлин",
+"lon": 13.4,
+"lat": 52.52,
+"founded": null,
+"pop": [
+3800
+],
+"port": false
+},
+{
+"ru": "Рим",
+"lon": 12.5,
+"lat": 41.9,
+"founded": null,
+"pop": [
+4300
+],
+"port": false
+},
+{
+"ru": "Сидней",
+"lon": 151.21,
+"lat": -33.87,
+"founded": null,
+"pop": [
+5300
+],
+"port": true
+},
+{
+"ru": "Мельбурн",
+"lon": 144.96,
+"lat": -37.81,
+"founded": null,
+"pop": [
+5200
+],
+"port": true
+},
+{
+"ru": "Киев",
+"lon": 30.52,
+"lat": 50.45,
+"founded": null,
+"pop": [
+3000
+],
+"port": false
+},
+{
+"ru": "Варшава",
+"lon": 21.01,
+"lat": 52.23,
+"founded": null,
+"pop": [
+1800
+],
+"port": false
+},
+{
+"ru": "Вена",
+"lon": 16.37,
+"lat": 48.21,
+"founded": null,
+"pop": [
+2000
+],
+"port": false
+},
+{
+"ru": "Афины",
+"lon": 23.73,
+"lat": 37.98,
+"founded": null,
+"pop": [
+3200
+],
+"port": false
+},
+{
+"ru": "Лиссабон",
+"lon": -9.14,
+"lat": 38.72,
+"founded": null,
+"pop": [
+3000
+],
+"port": true
+},
+{
+"ru": "Барселона",
+"lon": 2.17,
+"lat": 41.39,
+"founded": null,
+"pop": [
+5700
+],
+"port": true
+},
+{
+"ru": "Милан",
+"lon": 9.19,
+"lat": 45.46,
+"founded": null,
+"pop": [
+4300
+],
+"port": false
+},
+{
+"ru": "Бухарест",
+"lon": 26.1,
+"lat": 44.43,
+"founded": null,
+"pop": [
+2200
+],
+"port": false
+},
+{
+"ru": "Будапешт",
+"lon": 19.04,
+"lat": 47.5,
+"founded": null,
+"pop": [
+1800
+],
+"port": false
+},
+{
+"ru": "Прага",
+"lon": 14.42,
+"lat": 50.08,
+"founded": null,
+"pop": [
+1400
+],
+"port": false
+},
+{
+"ru": "Стокгольм",
+"lon": 18.07,
+"lat": 59.33,
+"founded": null,
+"pop": [
+1700
+],
+"port": true
+},
+{
+"ru": "Хельсинки",
+"lon": 24.94,
+"lat": 60.17,
+"founded": null,
+"pop": [
+1300
+],
+"port": true
+},
+{
+"ru": "Осло",
+"lon": 10.75,
+"lat": 59.91,
+"founded": null,
+"pop": [
+1100
+],
+"port": true
+},
+{
+"ru": "Копенгаген",
+"lon": 12.57,
+"lat": 55.68,
+"founded": null,
+"pop": [
+1400
+],
+"port": true
+},
+{
+"ru": "Амстердам",
+"lon": 4.9,
+"lat": 52.37,
+"founded": null,
+"pop": [
+1200
+],
+"port": true
+},
+{
+"ru": "Брюссель",
+"lon": 4.35,
+"lat": 50.85,
+"founded": null,
+"pop": [
+2100
+],
+"port": false
+},
+{
+"ru": "Дублин",
+"lon": -6.26,
+"lat": 53.35,
+"founded": null,
+"pop": [
+1300
+],
+"port": true
+},
+{
+"ru": "Минск",
+"lon": 27.57,
+"lat": 53.9,
+"founded": null,
+"pop": [
+2000
+],
+"port": false
+},
+{
+"ru": "Белград",
+"lon": 20.46,
+"lat": 44.79,
+"founded": null,
+"pop": [
+1700
+],
+"port": false
+},
+{
+"ru": "Анкара",
+"lon": 32.85,
+"lat": 39.93,
+"founded": null,
+"pop": [
+5700
+],
+"port": false
+},
+{
+"ru": "Тель-Авив",
+"lon": 34.78,
+"lat": 32.09,
+"founded": null,
+"pop": [
+4300
+],
+"port": true
+},
+{
+"ru": "Дамаск",
+"lon": 36.3,
+"lat": 33.51,
+"founded": null,
+"pop": [
+2500
+],
+"port": false
+},
+{
+"ru": "Амман",
+"lon": 35.93,
+"lat": 31.95,
+"founded": null,
+"pop": [
+4000
+],
+"port": false
+},
+{
+"ru": "Дубай",
+"lon": 55.27,
+"lat": 25.2,
+"founded": null,
+"pop": [
+3600
+],
+"port": true
+},
+{
+"ru": "Доха",
+"lon": 51.53,
+"lat": 25.29,
+"founded": null,
+"pop": [
+1000
+],
+"port": true
+},
+{
+"ru": "Кувейт",
+"lon": 47.98,
+"lat": 29.38,
+"founded": null,
+"pop": [
+3200
+],
+"port": true
+},
+{
+"ru": "Кабул",
+"lon": 69.17,
+"lat": 34.53,
+"founded": null,
+"pop": [
+4600
+],
+"port": false
+},
+{
+"ru": "Ташкент",
+"lon": 69.24,
+"lat": 41.3,
+"founded": null,
+"pop": [
+2900
+],
+"port": false
+},
+{
+"ru": "Алма-Ата",
+"lon": 76.95,
+"lat": 43.24,
+"founded": null,
+"pop": [
+2000
+],
+"port": false
+},
+{
+"ru": "Баку",
+"lon": 49.87,
+"lat": 40.41,
+"founded": null,
+"pop": [
+2400
+],
+"port": true
+},
+{
+"ru": "Тбилиси",
+"lon": 44.79,
+"lat": 41.72,
+"founded": null,
+"pop": [
+1200
+],
+"port": false
+},
+{
+"ru": "Ереван",
+"lon": 44.5,
+"lat": 40.18,
+"founded": null,
+"pop": [
+1100
+],
+"port": false
+},
+{
+"ru": "Новосибирск",
+"lon": 82.92,
+"lat": 55.03,
+"founded": null,
+"pop": [
+1600
+],
+"port": false
+},
+{
+"ru": "Владивосток",
+"lon": 131.89,
+"lat": 43.12,
+"founded": null,
+"pop": [
+600
+],
+"port": true
+},
+{
+"ru": "Катманду",
+"lon": 85.32,
+"lat": 27.7,
+"founded": null,
+"pop": [
+1500
+],
+"port": false
+},
+{
+"ru": "Коломбо",
+"lon": 79.86,
+"lat": 6.93,
+"founded": null,
+"pop": [
+750
+],
+"port": true
+},
+{
+"ru": "Янгон",
+"lon": 96.15,
+"lat": 16.87,
+"founded": null,
+"pop": [
+5600
+],
+"port": true
+},
+{
+"ru": "Пномпень",
+"lon": 104.92,
+"lat": 11.56,
+"founded": null,
+"pop": [
+2300
+],
+"port": false
+},
+{
+"ru": "Куала-Лумпур",
+"lon": 101.69,
+"lat": 3.14,
+"founded": null,
+"pop": [
+8700
+],
+"port": false
+},
+{
+"ru": "Тайбэй",
+"lon": 121.56,
+"lat": 25.03,
+"founded": null,
+"pop": [
+7000
+],
+"port": true
+},
+{
+"ru": "Пхеньян",
+"lon": 125.75,
+"lat": 39.02,
+"founded": null,
+"pop": [
+3200
+],
+"port": false
+},
+{
+"ru": "Гонконг",
+"lon": 114.17,
+"lat": 22.32,
+"founded": null,
+"pop": [
+7500
+],
+"port": true
+},
+{
+"ru": "Каракас",
+"lon": -66.9,
+"lat": 10.5,
+"founded": null,
+"pop": [
+2900
+],
+"port": true
+},
+{
+"ru": "Кито",
+"lon": -78.5,
+"lat": -0.18,
+"founded": null,
+"pop": [
+2900
+],
+"port": false
+},
+{
+"ru": "Монтевидео",
+"lon": -56.19,
+"lat": -34.9,
+"founded": null,
+"pop": [
+1800
+],
+"port": true
+},
+{
+"ru": "Ла-Пас",
+"lon": -68.15,
+"lat": -16.5,
+"founded": null,
+"pop": [
+1900
+],
+"port": false
+},
+{
+"ru": "Гавана",
+"lon": -82.37,
+"lat": 23.13,
+"founded": null,
+"pop": [
+2100
+],
+"port": true
+},
+{
+"ru": "Панама",
+"lon": -79.52,
+"lat": 8.98,
+"founded": null,
+"pop": [
+2000
+],
+"port": true
+},
+{
+"ru": "Сан-Франциско",
+"lon": -122.42,
+"lat": 37.77,
+"founded": null,
+"pop": [
+3300
+],
+"port": true
+},
+{
+"ru": "Вашингтон",
+"lon": -77.04,
+"lat": 38.9,
+"founded": null,
+"pop": [
+5500
+],
+"port": false
+},
+{
+"ru": "Монреаль",
+"lon": -73.57,
+"lat": 45.5,
+"founded": null,
+"pop": [
+4300
+],
+"port": true
+},
+{
+"ru": "Аддис-Абеба",
+"lon": 38.74,
+"lat": 9.03,
+"founded": null,
+"pop": [
+5800
+],
+"port": false
+},
+{
+"ru": "Найроби",
+"lon": 36.82,
+"lat": -1.29,
+"founded": null,
+"pop": [
+5500
+],
+"port": false
+},
+{
+"ru": "Дар-эс-Салам",
+"lon": 39.28,
+"lat": -6.8,
+"founded": null,
+"pop": [
+8000
+],
+"port": true
+},
+{
+"ru": "Луанда",
+"lon": 13.23,
+"lat": -8.84,
+"founded": null,
+"pop": [
+9000
+],
+"port": true
+},
+{
+"ru": "Аккра",
+"lon": -0.2,
+"lat": 5.6,
+"founded": null,
+"pop": [
+2600
+],
+"port": true
+},
+{
+"ru": "Дакар",
+"lon": -17.44,
+"lat": 14.69,
+"founded": null,
+"pop": [
+3300
+],
+"port": true
+},
+{
+"ru": "Алжир",
+"lon": 3.06,
+"lat": 36.75,
+"founded": null,
+"pop": [
+3000
+],
+"port": true
+},
+{
+"ru": "Касабланка",
+"lon": -7.59,
+"lat": 33.57,
+"founded": null,
+"pop": [
+3800
+],
+"port": true
+},
+{
+"ru": "Тунис",
+"lon": 10.18,
+"lat": 36.8,
+"founded": null,
+"pop": [
+2700
+],
+"port": false
+},
+{
+"ru": "Триполи",
+"lon": 13.19,
+"lat": 32.89,
+"founded": null,
+"pop": [
+1200
+],
+"port": true
+},
+{
+"ru": "Кейптаун",
+"lon": 18.42,
+"lat": -33.92,
+"founded": null,
+"pop": [
+4900
+],
+"port": true
+},
+{
+"ru": "Окленд",
+"lon": 174.76,
+"lat": -36.85,
+"founded": null,
+"pop": [
+1700
+],
+"port": true
+},
+{
+"ru": "Веллингтон",
+"lon": 174.78,
+"lat": -41.29,
+"founded": null,
+"pop": [
+450
+],
+"port": true
+},
+{
+"ru": "Астана",
+"lon": 71.43,
+"lat": 51.17,
+"founded": null,
+"pop": [
+1300
+],
+"port": false
+},
+{
+"ru": "Улан-Батор",
+"lon": 106.9,
+"lat": 47.9,
+"founded": null,
+"pop": [
+1700
+],
+"port": false
+}
+]
+}
