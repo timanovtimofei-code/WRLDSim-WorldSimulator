@@ -95,7 +95,6 @@ def _with_card(gs, card):
 
 def _screens():
     from wrldsim.states.anime_setup import AnimeSetupState
-    from wrldsim.states.atlas import AtlasState
     from wrldsim.states.confirm import ChoiceState, ConfirmState
     from wrldsim.states.country_view import CountryViewState
     from wrldsim.states.era_select import EraSelectState
@@ -140,7 +139,6 @@ def _screens():
         "mode_select": plain(ModeSelectState, "imperial"),
         "world_map": plain(WorldMapState),
         "country_view": lambda c: (CountryViewState(c.app, _home_idx(c.app, c.new_game())), None),
-        "atlas": plain(AtlasState, "imperial"),
         "anime_setup": plain(AnimeSetupState),
         "role_select": role,
         "game": lambda c: (c.game_screen(), None),

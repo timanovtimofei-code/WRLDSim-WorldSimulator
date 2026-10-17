@@ -19,7 +19,6 @@ class MainMenuState(State):
         self.buttons = [
             Button("Новая игра", self._new_game, size=20, bold=True, glass=True),
             self.continue_btn,
-            Button("Атлас истории", self._atlas, size=20, glass=True),
             Button("Настройки", self._settings, size=20, glass=True),
             Button("Выход", app.quit, size=20, glass=True),
         ]
@@ -31,10 +30,6 @@ class MainMenuState(State):
     def _new_game(self):
         from .new_game import NewGameKindState
         self.app.push(NewGameKindState(self.app))
-
-    def _atlas(self):
-        from .atlas import AtlasState
-        self.app.push(AtlasState(self.app, "imperial"))
 
     def _settings(self):
         from .settings_state import SettingsState
