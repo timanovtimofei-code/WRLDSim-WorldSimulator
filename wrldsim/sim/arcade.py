@@ -127,16 +127,22 @@ def _v10_to_v11(state):
     state.setdefault("realm_on", False)
 
 
+def _v11_to_v12(state):
+    # Раньше все сохранённые читы были постоянными и уже объявлены ECLIPSE - они остаются прикреплёнными.
+    state.setdefault("cheats_on", list(state.get("cheats", [])))
+    state.setdefault("cheats_new", [])
+
+
 # MIGRATIONS[n] переводит состояние версии n в n+1; новая версия - новая функция в конце.
 MIGRATIONS = {1: _v1_to_v2, 2: _v2_to_v3, 3: _v3_to_v4, 4: _v4_to_v5, 5: _v5_to_v6, 6: _v6_to_v7, 7: _v7_to_v8,
-              8: _v8_to_v9, 9: _v9_to_v10, 10: _v10_to_v11}
+              8: _v8_to_v9, 9: _v9_to_v10, 10: _v10_to_v11, 11: _v11_to_v12}
 RULER_ROLES = ("president", "ruler", "monarch", "chancellor")
 NEWS_KIND = {"war": "risk", "revolt": "risk", "econ": "minus", "decree": "plus", "city": "plus", "peace": "event",
              "territory": "event", "history": "event", "dip": "event", "info": "event"}
 NEWS_PER_ADVANCE = 24
 HEAT_MAX = 100
 METERS_MAX = 6
-CHEATS_MAX = 12
+CHEATS_MAX = 30
 CHEAT_LEN = 200
 STATE_VERSION = max(MIGRATIONS) + 1
 
@@ -231,6 +237,8 @@ class ArcadeGame:
             "dossier": [],
             "dossier_next": 0,
             "cheats": [],
+            "cheats_on": [],
+            "cheats_new": [],
             "log": [],
         }
         if calendar:
@@ -347,13 +355,47 @@ class ArcadeGame:
         if not text or text.lower() in (c.lower() for c in self.cheats):
             return False
         self.cheats.append(text)
+        for old in self.cheats[:-CHEATS_MAX]:
+            self.detach_cheat(old)
         del self.cheats[:-CHEATS_MAX]
         return True
 
     def remove_cheat(self, index):
         if 0 <= index < len(self.cheats):
-            return self.cheats.pop(index)
+            text = self.cheats.pop(index)
+            self.detach_cheat(text)
+            return text
         return None
+
+    # Буфер читов (cheats) хранит всё, что игрок ввёл в терминале; cheats_on - прикреплённые к сообщениям ECLIPSE,
+    # cheats_new - прикреплённые, но ещё не отправленные (о них ECLIPSE узнает со следующим сообщением).
+    @property
+    def cheats_on(self):
+        return self.s.setdefault("cheats_on", [])
+
+    @property
+    def cheats_new(self):
+        return self.s.setdefault("cheats_new", [])
+
+    def is_attached(self, text):
+        return text.lower() in (c.lower() for c in self.cheats_on)
+
+    def attach_cheat(self, text):
+        if self.is_attached(text):
+            return False
+        self.cheats_on.append(text)
+        self.cheats_new.append(text)
+        return True
+
+    def detach_cheat(self, text):
+        """Возвращает True, если ECLIPSE уже знал об этом чите и его надо уведомить об отключении."""
+        low = text.lower()
+        if not self.is_attached(text):
+            return False
+        sent = low not in (c.lower() for c in self.cheats_new)
+        self.s["cheats_on"] = [c for c in self.cheats_on if c.lower() != low]
+        self.s["cheats_new"] = [c for c in self.cheats_new if c.lower() != low]
+        return sent
 
     def _add_money(self, delta):
         before = self.s["money"]

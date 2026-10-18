@@ -6,12 +6,12 @@ from .base import ModalState
 
 
 class ChoiceState(ModalState):
-    def __init__(self, app, title, message, options):
+    def __init__(self, app, title, message, options, cancel_text="Отмена"):
         super().__init__(app)
         self.title = title
         self.message = message
         self.buttons = [Button(text, self._wrap(fn), size=16, bold=main) for text, fn, main in options]
-        self.cancel_btn = Button("Отмена", app.pop, size=16)
+        self.cancel_btn = Button(cancel_text, app.pop, size=16)
 
     def _wrap(self, fn):
         def run():

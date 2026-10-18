@@ -16,7 +16,7 @@ from .. import config
 from ..sim import anime as anime_mod
 from ..sim import saves
 from ..sim.arcade import REF_GDP_PC, STATS, ArcadeGame, starting_profile
-from ..sim.cheats import CheatRequest, parse_local, route_for
+from ..sim.cheats import parse_local
 from ..sim import shop
 from ..sim.eclipse import CHEAT_NOTICE, Eclipse
 from ..sim.eras import GENERIC
@@ -32,13 +32,10 @@ from .base import State
 from .warning import (WARN_FROM, GameOverState, Glitch, WarningState, alarm_frame, glitch_strength, level_name)
 
 ECLIPSE_START = "Начало сессии. Представь героя и страну, предложи первые действия."
-CHEAT_FOLLOWUP = ("(Других действий игрок не совершал. Сцена продолжается под действием только что активированного "
-                  "чита: покажи в ней, как чит меняет происходящее, и дай новые варианты действий.)")
 INPUT_HINT = "Свой вариант: напишите действие и нажмите Enter"
-CHOICE_MODES = {"topic": ("Разовое", "Тема вариантов: бизнес, побег, политика…", "Варианты на тему: ",
-                          "Предложи новые варианты действий героя на тему: "),
-                "free": ("Свободное", "Что угодно: «только мирные», «через связи»…", "Указание для вариантов: ",
-                         "Сгенерируй новые варианты действий героя, выполняя указание игрока: ")}
+TOPIC_HINT = "Тема или указание для вариантов: бизнес, «только мирные»…"
+TOPIC_SHOWN = "Варианты: "
+TOPIC_ASK = "Сгенерируй новые варианты действий героя по теме или указанию игрока: "
 RAIL_W = 56
 RAIL_ITEM_H = 50
 STATUS_H = 24
@@ -281,8 +278,6 @@ class ArcadeGameState(State):
         self.anime = self.game.s.get("anime")
         self.game.names_fn = self._event_names
         self.undo_stack = []
-        self.cheat_flush = False
-        self.pending_cheat = None
         self._apply_era()
         self.controller = MapController(app.camera)
         self.home = app.world.by_id[self.game.s["country_id"]]
@@ -308,8 +303,6 @@ class ArcadeGameState(State):
         self.realm_btn = Button("Управление", self._open_realm, size=15, bold=True)
         self.world_btn = Button("← В меню" if self.game.s.get("anime") else "← Вернуться к карте",
                                 self._to_menu if self.game.s.get("anime") else self._to_world_map, size=15)
-        self.choice_mode = "topic"
-        self.choice_mode_btn = Button("", self._toggle_choice_mode, size=13)
         self.topic_input = TextInput(size=15, max_len=200)
         self.topic_rect = EMPTY
         self.topic_send_btn = Button("→", self._send_topic, size=17, bold=True)
@@ -318,7 +311,7 @@ class ArcadeGameState(State):
                                         size=14, bold=True),
                          "stats": Button("ПОКАЗАТЕЛИ", lambda: self._set_tab("stats"), size=14, bold=True)}
         self.buttons = [self.time_btn, self.undo_btn, self.save_btn, self.load_btn, self.menu_btn,
-                        self.settings_btn, self.shop_btn, self.world_btn, self.choice_mode_btn, self.topic_send_btn,
+                        self.settings_btn, self.shop_btn, self.world_btn, self.topic_send_btn,
                         self.realm_btn, *self.tab_btns.values()]
         self.world_view = self.game.world is not None
         self.hover_atom = None
@@ -360,15 +353,13 @@ class ArcadeGameState(State):
         if not self.eclipse.load(eclipse_data):
             self._ask(ECLIPSE_START)
 
-        self.cheat_mode = "single"
-        self.console_lines = [("Single: одноразовый чит. Full: постоянный, его помнит ECLIPSE Prime.",
-                               theme.TEXT_MUTED), ("help: встроенные команды. Tab: сменить режим.", theme.TEXT_MUTED)]
+        self.console_lines = [("Enter: чит сохраняется в буфер. ▾ - список: «+» прикрепляет чит к сообщению ECLIPSE.",
+                               theme.TEXT_MUTED), ("help: встроенные команды.", theme.TEXT_MUTED)]
         self.console_input = TextInput(size=TERM_FONT, max_len=200)
-        self.pending = None
         self._swallow_toggle = False
         self.cheat_list_open = False
         self.term_rect = self.cheat_rect = self.arrow_rect = self.list_rect = EMPTY
-        self.mode_rects = {}
+        self.attach_rects = []
         self.trash_rects = []
 
     def exit(self):
@@ -518,15 +509,25 @@ class ArcadeGameState(State):
             return
         snap = self.undo_stack.pop()
         self.eclipse.cancel()
-        self.pending, self.pending_cheat, self.cheat_flush = None, None, False
+        buffer = list(self.game.cheats)
         self.game.restore(snap["game"])
+        self._keep_buffer(buffer)
         self.eclipse.restore(snap["eclipse"])
         self._sync_rules()
         self.eclipse_scroll = 0
         self._typed_version, self._typed_at = self.eclipse.version, 0.0
         self._choices_key = None
-        self._console_say("↶ Откат: последнее действие отменено вместе с диалогом ECLIPSE и читами.", theme.TEXT_DIM)
+        self._console_say("↶ Откат: последнее действие отменено вместе с диалогом ECLIPSE. Буфер читов не тронут.",
+                          theme.TEXT_DIM)
         self._flash("Отменено")
+
+    def _keep_buffer(self, buffer):
+        # Буфер читов - не ход игры: откат возвращает сцену и прикрепления, но не стирает введённые читы.
+        s = self.game.s
+        s["cheats"] = buffer
+        known = {c.lower() for c in buffer}
+        s["cheats_on"] = [c for c in self.game.cheats_on if c.lower() in known]
+        s["cheats_new"] = [c for c in self.game.cheats_new if c.lower() in known]
 
     def _go_home(self):
         self.target, self.region = self.home, None
@@ -629,7 +630,15 @@ class ArcadeGameState(State):
             self._flash(f"Сохранено в слот {slot}")
             if after:
                 after()
-        self.app.push(SaveSlotsState(self.app, self.mode_id, "save", do_save, on_delete=self._slot_deleted))
+
+        def saved_current(slot):
+            from .confirm import ChoiceState
+            if after:
+                return
+            self.app.push(ChoiceState(self.app, "СОХРАНЕНО", f"Последнее действие записано в слот {slot}.",
+                                      [("Выйти в главное меню", self.app.unwind, True)], cancel_text="Закрыть окно"))
+        self.app.push(SaveSlotsState(self.app, self.mode_id, "save", do_save, on_delete=self._slot_deleted,
+                                     current=self.slot, on_current_saved=saved_current))
 
     def _open_load(self):
         from .save_slots import SaveSlotsState
@@ -649,7 +658,6 @@ class ArcadeGameState(State):
             self._adopt_save(slot)
             self.eclipse_scroll = 0
             self.undo_stack.clear()
-            self.pending, self.pending_cheat, self.cheat_flush = None, None, False
             self.eclipse.cancel()
             self.eclipse = self._new_eclipse()
             if not self.eclipse.load(data.get("eclipse")):
@@ -752,6 +760,7 @@ class ArcadeGameState(State):
             return
         if text != ECLIPSE_START:
             self._push_undo()
+            self._send_attached()
         self.eclipse.send(text, self._summary(), shown=text != ECLIPSE_START)
         self.game.s.pop("dossier_fresh", None)
         self.eclipse_scroll = 0
@@ -764,17 +773,16 @@ class ArcadeGameState(State):
             return
         self.app.push(WarningState(self.app, choice, lambda: self._ask(choice["text"]),
                                    cheat_fn=self._add_suggested_cheat if self.cheats_enabled else None,
-                                   active_cheats=self.game.cheats))
+                                   active_cheats=self.game.cheats_on))
 
     def _add_suggested_cheat(self, text):
-        if text.lower() in (c.lower() for c in self.game.cheats):
+        if self.game.is_attached(text):
             return False
-        self._push_undo()
         self.game.add_cheat(text)
+        self.game.attach_cheat(text)
         self._sync_rules()
-        self._console_say(f"› full /{text}", theme.ACCENT)
-        self._console_say("Постоянный чит добавлен из предупреждения ECLIPSE.", theme.GOOD)
-        self._cheat_activated(text, True, [], flush=False)
+        self._console_say(f"› /{text}", theme.ACCENT)
+        self._console_say("Чит из предупреждения ECLIPSE сохранён в буфер и прикреплён к сообщению.", theme.GOOD)
         return True
 
     def _open_shop(self):
@@ -784,26 +792,19 @@ class ArcadeGameState(State):
                                 before_change=self._push_undo,
                                 categories=self.app.eras.shop_categories(self.era_id, shop.CATEGORIES)))
 
-    def _toggle_choice_mode(self):
-        self.choice_mode = "free" if self.choice_mode == "topic" else "topic"
-        self.focus = "topic"
-
     def _send_topic(self):
         text = " ".join(self.topic_input.text.split())
         if not text or self.eclipse.busy or self.game.over:
             return
-        _, _, shown, ask = CHOICE_MODES[self.choice_mode]
         self.topic_input.text = ""
         self._push_undo()
-        self.eclipse.send(ask + text, self._summary(), options_only=True, note=shown + text)
+        self._send_attached()
+        self.eclipse.send(TOPIC_ASK + text, self._summary(), options_only=True, note=TOPIC_SHOWN + text)
         self.eclipse_scroll = 0
 
     def _topic_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             self.focus = None
-            return True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
-            self._toggle_choice_mode()
             return True
         if event.type == pygame.KEYDOWN and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
             self._send_topic()
@@ -844,12 +845,13 @@ class ArcadeGameState(State):
         del self.console_lines[:-60]
 
     def _sync_rules(self):
-        self.eclipse.rules = list(self.game.cheats) if self.cheats_enabled else []
+        # Правила мира - прикреплённые читы без мгновенных команд («деньги 5 млн» срабатывает один раз).
+        self.eclipse.rules = ([c for c in self.game.cheats_on if parse_local(c) is None]
+                              if self.cheats_enabled else [])
 
-    def _cheat_activated(self, text, full, effects, flush=True):
-        if not self.cheats_enabled:
-            return
-        kind = "ПОСТОЯННЫЙ (FULL): действует всю игру, добавлен в правила мира" if full else "РАЗОВЫЙ (SINGLE)"
+    def _cheat_activated(self, text, permanent, effects):
+        kind = ("ПОСТОЯННЫЙ: действует, пока игрок его не открепит, добавлен в правила мира" if permanent
+                else "РАЗОВЫЙ: эффект уже применён движком")
         lines = [CHEAT_NOTICE, f"Чит-код игрока: «{text}». Тип: {kind}."]
         if effects:
             lines.append("Движок уже применил к показателям: " + "; ".join(effects) + ".")
@@ -857,87 +859,63 @@ class ArcadeGameState(State):
                      "прямо в ответе: покажи в сцене, как мир это отражает. В «ops» отдай только то, чего движок "
                      "ещё не сделал.")
         self.eclipse.add_note("\n".join(lines), shown=f"{CHEAT_NOTICE}: /{text}")
-        self.cheat_flush = self.cheat_flush or flush
 
-    def _flush_cheats(self):
-        if not self.cheat_flush or self.eclipse.busy or self.pending is not None or self.game.over:
+    def _send_attached(self):
+        # Только что прикреплённые читы уходят в ECLIPSE вместе с сообщением игрока;
+        # мгновенные команды («деньги 5 млн») срабатывают один раз и открепляются.
+        if not self.cheats_enabled:
             return
-        self.cheat_flush = False
-        if not self.eclipse.notes:
-            return
-        self.eclipse.send(CHEAT_FOLLOWUP, self._summary(), shown=False)
-        self.game.s.pop("dossier_fresh", None)
-        self.eclipse_scroll = 0
+        for text in list(self.game.cheats_new):
+            local = parse_local(text)
+            effects = []
+            if local is not None and local[0]:
+                effects = self.game.apply_ops(local[0])
+                self._console_say(f"› /{text}: {local[1]}", theme.WARN)
+                for line in effects:
+                    self._console_say("  " + line, theme.WARN)
+                self.game.detach_cheat(text)
+            self._cheat_activated(text, local is None, effects)
+        self.game.s["cheats_new"] = []
+        self._sync_rules()
 
     def _submit(self, text):
         text = text.strip().lstrip("/").strip()
         if not text:
             return
-        full = self.cheat_mode == "full"
-        self._console_say(("› full /" if full else "› /") + text, theme.ACCENT if full else theme.WARN)
+        self._console_say("› /" + text, theme.WARN)
         local = parse_local(text)
-        if local is not None and not (full and local[0]):
-            ops, reply = local
-            self._console_say(reply)
-            if ops:
-                self._push_undo()
-                lines = self.game.apply_ops(ops)
-                for line in lines:
-                    self._console_say("  " + line, theme.WARN)
-                self._cheat_activated(text, False, lines)
+        if local is not None and not local[0]:
+            self._console_say(local[1])
             return
-        if self.pending is not None:
-            self._console_say("DeepSeek ещё думает над прошлой командой.", theme.TEXT_DIM)
+        if self.game.add_cheat(text):
+            self._console_say("Сохранено в буфер. ▾ и «+» - прикрепить к сообщению ECLIPSE.", theme.GOOD)
+        else:
+            self._console_say("Такой чит уже есть в буфере.", theme.TEXT_DIM)
+
+    def _toggle_attach(self, index):
+        if not 0 <= index < len(self.game.cheats):
             return
-        if full and text.lower() in (c.lower() for c in self.game.cheats):
-            self._console_say("Этот постоянный чит уже активен.", theme.TEXT_DIM)
-            return
-        snap = self._push_undo()
-        if full:
-            self.game.add_cheat(text)
-            self._sync_rules()
-            self._console_say("Постоянный чит включён: ECLIPSE Prime учитывает его в каждой сцене.", theme.GOOD)
-            if route_for(self.app.arcade_cfg["deepseek"]) is None:
-                self._cheat_activated(text, True, [])
-                return
-        g = self.game.s
-        summary = {"страна": g["country_name"], "эпоха": self.app.eras.era(self.era_id)["short"],
-                   "дата": self.game.date_text(), "деньги": round(g["money"]),
-                   "известность": g["fame"], "абсурд": g["chaos"], "внимание": g.get("heat", 0),
-                   "показатели": dict(g["stats"]), "постоянные_читы": list(self.game.cheats)}
-        self.pending = CheatRequest(self.app.arcade_cfg["deepseek"], text, summary, permanent=full)
-        self.pending_cheat = (text, full, snap)
-        self._console_say("DeepSeek думает…", theme.TEXT_DIM)
+        text = self.game.cheats[index]
+        if self.game.is_attached(text):
+            if self.game.detach_cheat(text):
+                self.eclipse.add_note(f"Игрок открепил чит-код «{text}»: он больше не действует, считай его отменённым.")
+            self._console_say(f"Откреплён /{text}", theme.TEXT_DIM)
+        else:
+            self.game.attach_cheat(text)
+            self._console_say(f"Прикреплён /{text}: уйдёт в ECLIPSE со следующим сообщением.", theme.GOOD)
+        self._sync_rules()
 
     def _remove_cheat(self, index):
         if not 0 <= index < len(self.game.cheats):
             return
-        self._push_undo()
-        text = self.game.remove_cheat(index)
+        text = self.game.cheats[index]
+        if self.game.detach_cheat(text):
+            self.eclipse.add_note(f"Игрок отключил чит-код «{text}»: он больше не действует, считай его отменённым.")
+        self.game.remove_cheat(index)
         self._sync_rules()
-        self._console_say(f"Удалён /{text}", TRASH)
-        self.eclipse.add_note(f"Игрок отключил чит-код «{text}»: он больше не действует, считай его отменённым.")
+        self._console_say(f"Удалён из буфера /{text}", TRASH)
         if not self.game.cheats:
             self.cheat_list_open = False
-
-    def _poll_pending(self):
-        if self.pending is None or not self.pending.done:
-            return
-        req, self.pending = self.pending, None
-        text, full, snap = self.pending_cheat or ("", False, None)
-        self.pending_cheat = None
-        if req.error:
-            self._console_say(req.error, theme.DANGER)
-            if full:
-                self._cheat_activated(text, True, [])
-            else:
-                self._drop_undo(snap)
-            return
-        self._console_say(req.reply)
-        lines = self.game.apply_ops(req.ops)
-        for line in lines:
-            self._console_say("  " + line, theme.WARN)
-        self._cheat_activated(text, full, lines)
 
     def handle_event(self, event):
         if self._hit_event(event):
@@ -1077,9 +1055,6 @@ class ArcadeGameState(State):
             self.focus = None
             self.cheat_list_open = False
             return True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
-            self.cheat_mode = "full" if self.cheat_mode == "single" else "single"
-            return True
         if event.type == pygame.TEXTINPUT:
             if self._swallow_toggle and event.text in CONSOLE_CHARS:
                 self._swallow_toggle = False
@@ -1099,14 +1074,13 @@ class ArcadeGameState(State):
                     if rect.collidepoint(event.pos):
                         self._remove_cheat(index)
                         return True
+                for rect, index in self.attach_rects:
+                    if rect.collidepoint(event.pos):
+                        self._toggle_attach(index)
+                        return True
             if self.arrow_rect.collidepoint(event.pos):
                 self.cheat_list_open = not self.cheat_list_open
                 return True
-            for mode, rect in self.mode_rects.items():
-                if rect.collidepoint(event.pos):
-                    self.cheat_mode = mode
-                    self.focus = "cheat"
-                    return True
         pos = pygame.mouse.get_pos() if event.type == pygame.MOUSEWHEEL else getattr(event, "pos", None)
         inside = pos is not None and (self.term_rect.collidepoint(pos)
                                       or (self.cheat_list_open and self.list_rect.collidepoint(pos)))
@@ -1166,8 +1140,6 @@ class ArcadeGameState(State):
         self.eclipse_input.update(dt)
         self.topic_input.update(dt)
         self._sync_rules()
-        self._poll_pending()
-        self._flush_cheats()
         self._poll_eclipse()
         self._update_defeat(dt)
         self._update_indicators(dt)
@@ -1185,7 +1157,7 @@ class ArcadeGameState(State):
             self.hover = self._pick(pygame.mouse.get_pos(), self.app.screen.get_size())
 
     def animating(self):
-        if (self.eclipse.busy or self.pending is not None or self.app.camera.animating or self.toast or self.risk_k > 0
+        if (self.eclipse.busy or self.app.camera.animating or self.toast or self.risk_k > 0
                 or getattr(self, "_globe_moving", False)):
             return True
         return any(abs(a["shown"] - a["target"]) > 0.002 or a["glow"] > 0 or 0 < a["vis"] < 1 or a["timer"] > 0
@@ -1327,7 +1299,7 @@ class ArcadeGameState(State):
             if self.cheat_list_open:
                 self._draw_cheat_list(surface)
             else:
-                self.list_rect, self.trash_rects = EMPTY, []
+                self.list_rect, self.trash_rects, self.attach_rects = EMPTY, [], []
         elif kind == "menu":
             self._draw_menu_card(surface, c)
         close = pygame.Rect(c.right - 38, c.y + 8, 30, 30)
@@ -1506,11 +1478,10 @@ class ArcadeGameState(State):
     def _hide_side(self, keep_list=False):
         self.term_rect = self.cheat_rect = self.arrow_rect = self.topic_rect = EMPTY
         self.choices_rect = EMPTY
-        self.mode_rects = {}
         if not keep_list:
-            self.list_rect, self.trash_rects = EMPTY, []
+            self.list_rect, self.trash_rects, self.attach_rects = EMPTY, [], []
             self.cheat_list_open = False
-        self.choice_mode_btn.rect = self.topic_send_btn.rect = EMPTY
+        self.topic_send_btn.rect = EMPTY
         for b in self.choice_btns:
             b.rect = EMPTY
 
@@ -1794,7 +1765,7 @@ class ArcadeGameState(State):
             draw_text(img, "ЧИТ ДЛЯ ОБХОДА РИСКА", (pad, y + 8), 11, theme.WARN, bold=True)
             y += 24
             mono = fonts.mono(14)
-            active = {c.lower() for c in self.game.cheats}
+            active = {c.lower() for c in self.game.cheats_on}
             for text in cheats:
                 done = text.lower() in active
                 label = ellipsize("/" + text, text_w - 44, mono)
@@ -1885,7 +1856,7 @@ class ArcadeGameState(State):
         if self.cheats_enabled and self.cheat_list_open:
             self._draw_cheat_list(surface)
         else:
-            self.list_rect, self.trash_rects = EMPTY, []
+            self.list_rect, self.trash_rects, self.attach_rects = EMPTY, [], []
 
     def _draw_choices(self, surface, x, w, top_limit, bottom):
         ec = self.eclipse
@@ -1919,20 +1890,45 @@ class ArcadeGameState(State):
             fill_round(surface, pygame.Rect(track.x, thumb_y, 3, thumb_h), theme.ACCENT, 200, 1)
         self.topic_rect = pygame.Rect(x, self.choices_rect.y - 10 - 36, w - 46, 36)
         focused = self.focus == "topic"
-        label, hint, _, _ = CHOICE_MODES[self.choice_mode]
         self.topic_input.rect = self.topic_rect
         self.topic_input.radius = 18
         self.topic_input.caret = focused
-        self.topic_input.draw(surface, hint)
+        self.topic_input.draw(surface, TOPIC_HINT)
         self.topic_send_btn.rect = pygame.Rect(self.topic_rect.right + 8, self.topic_rect.y, 38, 36)
         self.topic_send_btn.enabled = bool(self.topic_input.text.strip()) and not ec.busy and not self.game.over
         self.topic_send_btn.draw(surface)
         top = self.topic_rect.y - 32
         draw_text(surface, "ДЕЙСТВИЯ", (x + 2, top + 6), 12, theme.ACCENT, bold=True)
-        self.choice_mode_btn.text = label
-        self.choice_mode_btn.rect = pygame.Rect(x + w - 112, top, 112, 26)
-        self.choice_mode_btn.draw(surface)
+        if self.cheats_enabled:
+            self._draw_attached(surface, pygame.Rect(x + 90, top, w - 90, 26))
         return top
+
+    def _draw_attached(self, surface, area):
+        # Индикатор: какие читы уйдут в ECLIPSE вместе с сообщением; клик открывает буфер.
+        on = self.game.cheats_on
+        font = fonts.get(13)
+        if on:
+            label = f"Чит прикреплён: /{on[0]}" if len(on) == 1 else f"Прикреплено читов: {len(on)}"
+            color = theme.GOOD
+        else:
+            label, color = "Чит не прикреплён", theme.TEXT_MUTED
+        label = ellipsize(label, area.w - 40, font)
+        pill_w = font.size(label)[0] + 40
+        pill = pygame.Rect(area.right - pill_w, area.y, pill_w, area.h)
+        hot = pill.collidepoint(pygame.mouse.get_pos())
+        fill_round(surface, pill, color, 70 if hot else 36, pill.h // 2)
+        pygame.draw.rect(surface, color, pill, 1, border_radius=pill.h // 2)
+        cx, cy = pill.x + 15, pill.centery
+        if on:
+            pygame.draw.lines(surface, color, False, [(cx - 5, cy), (cx - 1, cy + 4), (cx + 6, cy - 4)], 2)
+        else:
+            pygame.draw.circle(surface, color, (cx, cy), 5, 1)
+        draw_text(surface, label, (pill.x + 28, cy), 13, theme.TEXT if on else color, anchor="midleft")
+        self._hits.append((pill, self._show_cheat_buffer, "Буфер чит-кодов: прикрепить или открепить"))
+
+    def _show_cheat_buffer(self):
+        self._open_card("cheats")
+        self.cheat_list_open = True
 
     def _draw_terminal(self, surface, rect):
         font = fonts.mono(TERM_FONT)
@@ -1944,34 +1940,17 @@ class ArcadeGameState(State):
         hy = rect.y + 18
         fill_round(surface, pygame.Rect(rect.x + 14, hy - 7, 3, 14), theme.WARN, 255, 1)
         draw_spaced(surface, "CHEAT TERMINAL", (rect.x + 25, hy), 12, theme.TEXT, spacing=0.22, anchor="midleft")
-        if self.pending is not None:
-            dots = "." * (1 + int(self._anim_time * 3) % 3)
-            status, color = "DeepSeek думает" + dots, theme.WARN
-        else:
-            status, color = "готов", theme.TEXT_MUTED
+        attached = len(self.game.cheats_on)
+        status = f"буфер {len(self.game.cheats)} · прикреплено {attached}"
+        color = theme.GOOD if attached else theme.TEXT_MUTED
         img = fonts.mono(12).render(status, True, color)
         surface.blit(img, img.get_rect(midright=(rect.right - 14, hy)))
         pygame.draw.line(surface, theme.TERM_LINE, (rect.x + 14, rect.y + 34), (rect.right - 14, rect.y + 34))
 
         row_h = TERM_ROW_H if rect.h >= 200 else 34
         row = pygame.Rect(rect.x + 12, rect.bottom - row_h - 12, rect.w - 24, row_h)
-        seg_w = 122
-        seg = pygame.Rect(row.x, row.y, seg_w, row.h)
-        fill_round(surface, seg, theme.TERM_FIELD, 255, row.h // 2)
-        pygame.draw.rect(surface, theme.TERM_LINE, seg, 1, border_radius=row.h // 2)
-        small = fonts.mono(12)
-        self.mode_rects = {}
-        half = (seg_w - 8) // 2
-        for i, (mode, label) in enumerate((("single", "SINGLE"), ("full", "FULL"))):
-            r = pygame.Rect(seg.x + 4 + i * half, seg.y + 4, half, seg.h - 8)
-            self.mode_rects[mode] = r
-            on = self.cheat_mode == mode
-            if on:
-                fill_round(surface, r, theme.WARN if mode == "single" else theme.ACCENT, 60, r.h // 2)
-            img = small.render(label, True, theme.TEXT if on else theme.TEXT_MUTED)
-            surface.blit(img, img.get_rect(center=r.center))
         self.arrow_rect = pygame.Rect(row.right - row.h, row.y, row.h, row.h)
-        self.cheat_rect = pygame.Rect(seg.right + 8, row.y, self.arrow_rect.x - 8 - seg.right - 8, row.h)
+        self.cheat_rect = pygame.Rect(row.x, row.y, self.arrow_rect.x - 8 - row.x, row.h)
         self._draw_cheat_input(surface, self.cheat_rect, font)
         self._draw_arrow(surface, self.arrow_rect)
 
@@ -1989,11 +1968,11 @@ class ArcadeGameState(State):
         focused = self.focus == "cheat"
         fill_round(surface, rect, theme.TERM_FIELD, 255, rect.h // 2)
         pygame.draw.rect(surface, theme.WARN if focused else theme.TERM_LINE, rect, 1, border_radius=rect.h // 2)
-        slash = font.render("/", True, theme.WARN if self.cheat_mode == "single" else theme.ACCENT)
+        slash = font.render("/", True, theme.WARN)
         surface.blit(slash, slash.get_rect(midleft=(rect.x + 14, rect.centery)))
         inner = pygame.Rect(rect.x + 14 + slash.get_width() + 5, rect.y, rect.w - slash.get_width() - 33, rect.h)
         text = self.console_input.text
-        hint = "одноразовый чит" if self.cheat_mode == "single" else "постоянный чит"
+        hint = "чит-код: Enter - в буфер"
         img = font.render(text, True, theme.TEXT) if text else font.render(hint, True, theme.TEXT_MUTED)
         offset = max(0, img.get_width() - inner.w + 4) if text else 0
         prev = surface.get_clip()
@@ -2024,23 +2003,32 @@ class ArcadeGameState(State):
             surface.blit(img, img.get_rect(center=badge.center))
 
     def _draw_cheat_list(self, surface):
+        # Буфер читов: слева «+» прикрепляет чит к сообщению ECLIPSE (галочка; при наведении - крест, чтобы
+        # открепить), справа корзина удаляет чит из буфера совсем.
         cheats = self.game.cheats
         font = fonts.mono(TERM_FONT)
         row_h = 36
         side = self.rects["side"]
         x, w = self.term_rect.x, self.term_rect.w
+        need = 34 + max(1, len(cheats)) * row_h + 8
         top = self.term_rect.bottom + 4
-        h = 34 + max(1, len(cheats)) * row_h + 8
-        h = min(h, side.bottom - 10 - top)
+        if side.bottom - 10 - top >= min(need, 34 + 3 * row_h + 8):
+            h = min(need, side.bottom - 10 - top)
+        else:
+            # Под терминалом места нет (карточка «Чит-терминал»): список ложится поверх лога, над строкой ввода.
+            bottom = self.cheat_rect.y - 6
+            top = max(self.term_rect.y + 38, bottom - need)
+            h = bottom - top
         self.list_rect = pygame.Rect(x, top, w, h)
         fill_round(surface, self.list_rect, theme.TERM_BG, 252, 10)
         pygame.draw.rect(surface, theme.WARN, self.list_rect, 1, border_radius=10)
-        surface.blit(fonts.mono(12).render(f"АКТИВНЫЕ FULL-ЧИТЫ · {len(cheats)}", True, theme.WARN), (x + 12, top + 10))
-        self.trash_rects = []
+        title = f"БУФЕР ЧИТОВ · {len(cheats)} · прикреплено {len(self.game.cheats_on)}"
+        surface.blit(fonts.mono(12).render(title, True, theme.WARN), (x + 12, top + 10))
+        self.trash_rects, self.attach_rects = [], []
         mouse = pygame.mouse.get_pos()
         y = top + 32
         if not cheats:
-            surface.blit(font.render("пусто: включите чит в режиме FULL", True, theme.TEXT_MUTED), (x + 12, y + 8))
+            surface.blit(font.render("пусто: введите чит и нажмите Enter", True, theme.TEXT_MUTED), (x + 12, y + 8))
             return
         for i, text in enumerate(cheats):
             if y + row_h > self.list_rect.bottom - 4:
@@ -2048,12 +2036,30 @@ class ArcadeGameState(State):
             row = pygame.Rect(x + 6, y, w - 12, row_h - 4)
             if row.collidepoint(mouse):
                 fill_round(surface, row, (255, 255, 255), 12, 6)
+            pin = pygame.Rect(row.x + 4, row.centery - 13, 26, 26)
             trash = pygame.Rect(row.right - 32, row.centery - 14, 28, 28)
+            self.attach_rects.append((pin, i))
             self.trash_rects.append((trash, i))
-            label = ellipsize("/" + text, trash.x - row.x - 14, font)
-            surface.blit(font.render(label, True, theme.TEXT), (row.x + 8, row.centery - font.get_linesize() // 2))
+            self._draw_pin(surface, pin, self.game.is_attached(text), pin.collidepoint(mouse))
+            label = ellipsize("/" + text, trash.x - pin.right - 16, font)
+            color = theme.TEXT if self.game.is_attached(text) else theme.TEXT_DIM
+            surface.blit(font.render(label, True, color), (pin.right + 8, row.centery - font.get_linesize() // 2))
             _draw_trash(surface, trash, trash.collidepoint(mouse))
             y += row_h
+
+    def _draw_pin(self, surface, rect, attached, hot):
+        cx, cy = rect.center
+        if attached and hot:
+            fill_round(surface, rect, theme.DANGER, 150, 8)
+            pygame.draw.line(surface, theme.TEXT, (cx - 5, cy - 5), (cx + 5, cy + 5), 3)
+            pygame.draw.line(surface, theme.TEXT, (cx - 5, cy + 5), (cx + 5, cy - 5), 3)
+        elif attached:
+            fill_round(surface, rect, theme.GOOD, 130, 8)
+            pygame.draw.lines(surface, theme.TEXT, False, [(cx - 6, cy), (cx - 2, cy + 4), (cx + 6, cy - 5)], 3)
+        else:
+            fill_round(surface, rect, theme.ACCENT, 170 if hot else 90, 8)
+            pygame.draw.line(surface, theme.TEXT, (cx - 6, cy), (cx + 6, cy), 3)
+            pygame.draw.line(surface, theme.TEXT, (cx, cy - 6), (cx, cy + 6), 3)
 
     def _stat_items(self):
         s = self.game.s

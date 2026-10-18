@@ -5,7 +5,7 @@ from ..ui import fonts, theme
 from ..ui import format as fmt
 from ..ui.widgets import Button, draw_panel, draw_spaced, draw_text, draw_trash, ellipsize
 from .base import ModalState
-from .confirm import ConfirmState
+from .confirm import ChoiceState, ConfirmState
 
 ROW_H = 64
 ROW_GAP = 10
@@ -18,12 +18,14 @@ def _hero_title(meta, sep):
 
 
 class SaveSlotsState(ModalState):
-    def __init__(self, app, mode_id, action, on_pick, on_delete=None):
+    def __init__(self, app, mode_id, action, on_pick, on_delete=None, current=None, on_current_saved=None):
         super().__init__(app)
         self.mode_id = mode_id
         self.action = action
         self.on_pick = on_pick
         self.on_delete = on_delete
+        self.current = current
+        self.on_current_saved = on_current_saved
         self.slots = app.modes["modes"][mode_id]["rules"]["save_slots"]
         self.meta = saves.read_meta(mode_id, self.slots)
         self.buttons = {slot: Button("", lambda s=slot: self._pick(s)) for slot in range(1, self.slots + 1)}
@@ -33,9 +35,24 @@ class SaveSlotsState(ModalState):
         self.scroll = 0
         self.max_scroll = 0
 
+    def _is_current(self, slot):
+        return self.action == "save" and slot == self.current and self.meta.get(slot) is not None
+
     def _pick(self, slot):
+        if self._is_current(slot):
+            what = _hero_title(self.meta[slot], " · ")
+            self.app.push(ChoiceState(
+                self.app, "ТЕКУЩИЙ СЕЙВ", f"Слот {slot}: {what}. Это сохранение вашей текущей игры.",
+                [("Записать последнее действие", lambda: self._save_current(slot), True)], cancel_text="Закрыть окно"))
+            return
         self.app.pop()
         self.on_pick(slot)
+
+    def _save_current(self, slot):
+        self.app.pop()
+        self.on_pick(slot)
+        if self.on_current_saved:
+            self.on_current_saved(slot)
 
     def _ask_delete(self, slot):
         meta = self.meta[slot] or {}
@@ -129,6 +146,7 @@ class SaveSlotsState(ModalState):
         meta = self.meta[slot]
         color = theme.TEXT if enabled else theme.TEXT_MUTED
         draw_text(surface, f"Слот {slot}", (rect.x + 16, rect.y + 10), 16, color, bold=True)
+        current = self._is_current(slot)
         if meta is None:
             draw_text(surface, "Пусто", (rect.x + 16, rect.y + 34), 14, theme.TEXT_MUTED)
             return
@@ -144,5 +162,8 @@ class SaveSlotsState(ModalState):
         saved = meta.get("saved_at", "").replace("T", " ")[:16]
         draw_text(surface, saved, (right, rect.y + 10), 13, theme.TEXT_MUTED, anchor="topright")
         if self.action == "save" and rect.collidepoint(mouse) and not trash.collidepoint(mouse):
-            draw_text(surface, "перезаписать", (right, rect.y + 36), 13, theme.WARN, anchor="topright")
+            draw_text(surface, "записать" if current else "перезаписать", (right, rect.y + 36), 13,
+                      theme.ACCENT if current else theme.WARN, anchor="topright")
+        elif current:
+            draw_text(surface, "текущий", (right, rect.y + 36), 13, theme.ACCENT, anchor="topright")
         draw_trash(surface, trash, trash.collidepoint(mouse))
