@@ -4,7 +4,6 @@ from . import config
 
 DISPLAY_MODES = {
     "windowed": "Оконный",
-    "borderless": "Оконный без рамок",
     "fullscreen": "Полный экран",
 }
 DEFAULTS = {"display": "windowed", "gpu": True,

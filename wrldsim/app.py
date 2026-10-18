@@ -123,8 +123,6 @@ class App:
         desktop = pygame.display.get_desktop_sizes()[0]
         if mode == "fullscreen":
             self._set_mode(desktop, pygame.FULLSCREEN)
-        elif mode == "borderless":
-            self._set_mode(desktop, pygame.NOFRAME)
         else:
             self._set_mode(self._window_size, pygame.RESIZABLE)
             try:
